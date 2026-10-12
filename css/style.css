@@ -570,6 +570,7 @@ h2 {
   color: #555;
   font-size: 16px;
   line-height: 1.9;
+  word-break: keep-all;
 }
 
 .conclusion-grid {
