@@ -996,3 +996,38 @@ h2 {
     transform: none;
   }
 }
+
+/* 도입부 상단 영문 라벨 */
+.intro-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #238B7D;
+  margin-bottom: 22px;
+}
+
+/* 제목 강조 색상 */
+.intro-title-accent {
+  color: #238B7D;
+}
+
+/* 제목 아래 부제 */
+.intro-subtitle {
+  margin: -24px 0 46px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #65716B;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 650px) {
+  .intro-eyebrow {
+    font-size: 10px;
+  }
+
+  .intro-subtitle {
+    margin-top: -14px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
