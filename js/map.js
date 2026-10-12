@@ -1705,6 +1705,58 @@ function updateLegend(type) {
 updateLegend('population');
 
 // ==================================================
+// 모바일: 활성 카드 바로 아래로 기존 지도 패널 이동
+// ==================================================
+
+const storyMapPanel = document.querySelector('.story-map-panel');
+
+// PC에서 지도가 있던 원래 위치를 기억
+const storyMapHome = document.createComment(
+  'story-map-original-position'
+);
+
+storyMapPanel.parentNode.insertBefore(
+  storyMapHome,
+  storyMapPanel
+);
+
+const mobileStoryQuery = window.matchMedia(
+  '(max-width: 900px)'
+);
+
+function placeStoryMapPanel(stepName) {
+
+  if (mobileStoryQuery.matches) {
+
+    const card = document.querySelector(
+      `.story-step[data-step="${stepName}"]`
+    );
+
+    if (card && card.nextElementSibling !== storyMapPanel) {
+
+      card.insertAdjacentElement(
+        'afterend',
+        storyMapPanel
+      );
+    }
+
+  } else if (storyMapHome.nextSibling !== storyMapPanel) {
+
+    // PC로 돌아오면 지도를 원래 오른쪽 영역에 복귀
+    storyMapHome.parentNode.insertBefore(
+      storyMapPanel,
+      storyMapHome.nextSibling
+    );
+  }
+
+  // 지도 컨테이너 위치가 변경되면 Leaflet 크기 재계산
+  requestAnimationFrame(() => {
+    storyDaechiMap.invalidateSize({ pan: false });
+    storyMulgeumMap.invalidateSize({ pan: false });
+  });
+}
+
+// ==================================================
 // 4. 스토리 단계 전환
 //    스크롤 + 카드 클릭
 // ==================================================
@@ -1725,6 +1777,9 @@ function showStoryStep(stepName) {
   if (currentStoryStep === stepName) return;
 
   currentStoryStep = stepName;
+
+  // 모바일에서는 현재 카드 아래로 지도 이동
+  placeStoryMapPanel(stepName);
 
   // 다른 단계로 이동하면 도보권 숨김
   // storyDaechiMap.removeLayer(daechiWalkingLayers);
@@ -2014,6 +2069,28 @@ function updateStepFromScroll() {
 
   if (isClickScrolling) return;
 
+  // 모바일: 카드 상단을 기준으로 단계 판단
+  if (mobileStoryQuery.matches) {
+
+    const activationY = window.innerHeight * 0.35;
+    let activeCard = storySteps[0];
+
+    storySteps.forEach(card => {
+
+      if (card.getBoundingClientRect().top <= activationY) {
+        activeCard = card;
+      }
+
+    });
+
+    if (activeCard) {
+      showStoryStep(activeCard.dataset.step);
+    }
+
+    return;
+  }
+
+  // PC: 기존 카드 중심점 기준 유지
   const targetY = window.innerHeight * 0.45;
 
   let closestStep = null;
@@ -2022,9 +2099,7 @@ function updateStepFromScroll() {
   storySteps.forEach(step => {
 
     const rect = step.getBoundingClientRect();
-
     const centerY = rect.top + rect.height / 2;
-
     const distance = Math.abs(centerY - targetY);
 
     if (distance < closestDistance) {
@@ -2057,7 +2132,11 @@ window.addEventListener('scroll', requestStepUpdate, {
   passive: true
 });
 
-window.addEventListener('resize', requestStepUpdate);
+// window.addEventListener('resize', requestStepUpdate);
+window.addEventListener('resize', () => {
+  placeStoryMapPanel(currentStoryStep || 'population');
+  requestStepUpdate();
+});
 
 // 초기 단계 표시
 showStoryStep('population');
@@ -2082,7 +2161,8 @@ storySteps.forEach(step => {
     // 클릭한 카드를 화면 중앙으로 부드럽게 이동
     step.scrollIntoView({
       behavior: 'smooth',
-      block: 'center'
+      // block: 'center'
+      block: mobileStoryQuery.matches ? 'start' : 'center'
     });
 
     // 이동이 끝난 뒤 다시 스크롤 감지 허용
