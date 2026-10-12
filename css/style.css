@@ -802,6 +802,7 @@ h2 {
   margin-bottom: 64px;
 }
 
+#map + h2 + p,
 .story-title p {
   max-width: none;
   font-size: 16px;
