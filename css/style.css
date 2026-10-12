@@ -651,3 +651,348 @@ h2 {
     padding: 26px 20px;
   }
 }
+
+
+/* ==========================================
+   Editorial Storymap Design v1
+   기존 CSS 맨 아래에 추가
+========================================== */
+
+:root {
+  --page-bg: #F7F7F4;
+  --surface: #FFFFFF;
+  --text: #202925;
+  --muted: #65716B;
+  --line: #E1E6E1;
+  --teal: #238B7D;
+  --coral: #D87387;
+}
+
+/* 전체 페이지 */
+body {
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: "Pretendard", "Noto Sans KR",
+               Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.content {
+  max-width: 1320px;
+  padding: 72px 44px 100px;
+}
+
+/* 제목 체계 */
+h1, h2, h3 {
+  letter-spacing: -0.045em;
+  word-break: keep-all;
+}
+
+h2 {
+  font-size: clamp(27px, 3vw, 38px);
+  line-height: 1.35;
+  font-weight: 700;
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
+/* 도입부 */
+.intro-section {
+  max-width: none;
+  padding: 55px 0 72px;
+  margin-bottom: 45px;
+  border-bottom: 1px solid var(--line);
+}
+
+.intro-section h1 {
+  max-width: 900px;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.22;
+  letter-spacing: -0.055em;
+  font-weight: 750;
+  margin-bottom: 48px;
+}
+
+.intro-description {
+  max-width: 760px;
+  font-size: 17px;
+  line-height: 2;
+  color: var(--muted);
+  word-break: keep-all;
+}
+
+.intro-highlight {
+  max-width: 790px;
+  margin: 42px 0;
+  padding: 20px 0 20px 28px;
+  border-left: 4px solid var(--teal);
+}
+
+.intro-highlight p {
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+.intro-highlight strong {
+  color: var(--teal);
+}
+
+.intro-highlight .intro-question {
+  font-size: 21px;
+  line-height: 1.6;
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+.intro-author {
+  margin-top: 36px;
+  padding: 0;
+  border: none;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* 지도 공통 디자인 */
+#map,
+#gangnam-map,
+#yangsan-map,
+#story-daechi-map,
+#story-mulgeum-map {
+  border-radius: 14px;
+  border: 1px solid #E2E7E4;
+  box-shadow: 0 8px 30px rgba(25, 40, 34, 0.045);
+}
+
+/* 전국 지도 */
+#map {
+  margin-top: 32px;
+}
+
+/* 행정경계 지도 */
+.compare-maps {
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.map-box {
+  min-width: 0;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.map-box h3 {
+  margin: 4px 0 16px;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+/* 스토리 분석 섹션 */
+.story-section {
+  margin-top: 140px;
+  padding-top: 60px;
+  border-top: 1px solid var(--line);
+}
+
+.story-title {
+  margin-bottom: 64px;
+}
+
+.story-title p {
+  max-width: 760px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+
+.story-layout {
+  grid-template-columns: minmax(280px, 340px)
+                         minmax(0, 1fr);
+  gap: 36px;
+}
+
+/* 스크롤 카드 */
+.story-step {
+  opacity: 1;
+  background: #F0F2EF;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 30px 26px;
+  box-shadow: none;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.story-step.active {
+  opacity: 1;
+  background: #FFFFFF;
+  border-color: #C9DCD5;
+  box-shadow: 0 12px 35px rgba(27, 61, 47, 0.08);
+  transform: translateY(-2px);
+}
+
+.story-step:hover {
+  opacity: 1;
+  background: #FFFFFF;
+}
+
+.step-number {
+  color: var(--teal);
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+
+.story-step h3 {
+  font-size: 22px;
+  line-height: 1.45;
+  margin: 12px 0 18px;
+}
+
+.story-step > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.story-point {
+  border-top: 1px solid var(--line);
+}
+
+.story-point strong {
+  color: var(--teal);
+}
+
+/* 지도 패널 */
+.story-map-panel {
+  top: 28px;
+  gap: 18px;
+}
+
+.story-region {
+  min-width: 0;
+  padding: 14px;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.story-region h3 {
+  margin: 3px 0 13px;
+  font-size: 16px;
+}
+
+.story-legend {
+  flex-wrap: wrap;
+  white-space: normal;
+  gap: 12px 16px;
+  color: var(--muted);
+}
+
+/* 결론 - 기존 그래프와 카드 구조 유지 */
+.conclusion-section {
+  margin-top: 160px;
+  padding-top: 65px;
+  border-top: 1px solid var(--line);
+}
+
+.conclusion-label,
+.conclusion-number {
+  color: var(--teal);
+}
+
+.conclusion-chart {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 34px;
+}
+
+.conclusion-card {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.conclusion-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(25, 40, 34, 0.06);
+}
+
+.conclusion-message {
+  background: #EDF4F0;
+  border: 1px solid #DCE9E1;
+  border-radius: 18px;
+}
+
+.conclusion-message strong {
+  color: var(--teal);
+}
+
+/* 모바일 */
+@media (max-width: 900px) {
+  .content {
+    padding: 36px 22px 70px;
+  }
+
+  .story-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .story-map-panel {
+    position: relative;
+    top: auto;
+  }
+
+  .story-steps {
+    gap: 24px;
+    padding-bottom: 0;
+  }
+
+  .intro-section {
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  .intro-section h1 {
+    font-size: 36px;
+  }
+
+  .intro-highlight .intro-question {
+    font-size: 18px;
+  }
+
+  .map-box {
+    padding: 12px;
+  }
+
+  .story-map-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .conclusion-chart {
+    padding: 24px 18px;
+  }
+
+  .conclusion-card {
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-step,
+  .conclusion-card {
+    transition: none;
+    transform: none;
+  }
+}
