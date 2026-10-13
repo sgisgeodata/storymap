@@ -1761,6 +1761,54 @@ function placeStoryMapPanel(stepName) {
 //    스크롤 + 카드 클릭
 // ==================================================
 
+// ==================================================
+// 카드 전환 시 지도 초점 초기화
+// ==================================================
+
+// 행정구역 경계 저장
+const storyRegionBounds = {
+  daechi: null,
+  mulgeum: null
+};
+
+// 대치4동 경계 불러오기
+fetch('data/daechi4_boundary.geojson')
+  .then(response => response.json())
+  .then(data => {
+    storyRegionBounds.daechi = L.geoJSON(data).getBounds();
+  });
+
+// 물금읍 경계 불러오기
+fetch('data/mulgeum_boundary.geojson')
+  .then(response => response.json())
+  .then(data => {
+    storyRegionBounds.mulgeum = L.geoJSON(data).getBounds();
+  });
+
+// 두 지도 초점 초기화
+function resetStoryMapView() {
+
+  if (storyRegionBounds.daechi) {
+    storyDaechiMap.fitBounds(
+      storyRegionBounds.daechi,
+      {
+        padding: [20, 20],
+        animate: true
+      }
+    );
+  }
+
+  if (storyRegionBounds.mulgeum) {
+    storyMulgeumMap.fitBounds(
+      storyRegionBounds.mulgeum,
+      {
+        padding: [20, 20],
+        animate: true
+      }
+    );
+  }
+}
+
 const storySteps = document.querySelectorAll('.story-step');
 
 
@@ -1780,6 +1828,9 @@ function showStoryStep(stepName) {
 
   // 모바일에서는 현재 카드 아래로 지도 이동
   placeStoryMapPanel(stepName);
+
+  // 카드를 변경할 때마다 지도 초점 초기화
+  resetStoryMapView();
 
   // 다른 단계로 이동하면 도보권 숨김
   // storyDaechiMap.removeLayer(daechiWalkingLayers);
