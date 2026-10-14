@@ -1845,8 +1845,11 @@ function showStoryStep(stepName) {
   // 모바일에서는 현재 카드 아래로 지도 이동
   placeStoryMapPanel(stepName);
 
-  // 카드를 변경할 때마다 지도 초점 초기화
-  resetStoryMapView();
+  // 일반 카드에서는 행정동 경계로 초점 초기화
+  // 05번은 선택된 학원 표시 범위에 맞춰 별도 설정
+  if (stepName !== 'academy') {
+    resetStoryMapView();
+  }
 
   // 다른 단계로 이동하면 도보권 숨김
   // storyDaechiMap.removeLayer(daechiWalkingLayers);
@@ -1894,6 +1897,17 @@ function showStoryStep(stepName) {
 
   if (activeStep) {
     activeStep.classList.add('active');
+  }
+
+  // 05번 카드 재진입 시 지도 초점 재설정
+  if (stepName === 'academy') {
+    requestAnimationFrame(() => {
+      storyDaechiMap.invalidateSize({ pan: false });
+      storyMulgeumMap.invalidateSize({ pan: false });
+
+      applyAcademyView('daechi');
+      applyAcademyView('mulgeum');
+    });
   }
 
 
@@ -2253,14 +2267,23 @@ storySteps.forEach(step => {
 
 // ==================================================
 // 06. SGIS 교육서비스업 세부 업종 비교
+// 주요 7개 업종 막대그래프 + 전체 33개 업종 펼쳐보기
 // ==================================================
 const industryChart = document.getElementById('industry-chart');
 const industrySummary = document.getElementById('industry-summary');
-const industryTopButton = document.getElementById('industry-top');
-const industryAllButton = document.getElementById('industry-all');
+const industryTableBody = document.getElementById('industry-table-body');
 let industryDataPromise = null;
 let industryData = null;
-let industryShowAll = false;
+
+const FEATURED_INDUSTRY_CODES = [
+  'P85501', // 일반 교과 학원
+  'P85621', // 음악학원
+  'P85612', // 기타 스포츠 교육기관
+  'P85611', // 태권도 및 무술 교육기관
+  'P85622', // 미술학원
+  'P85669', // 기타 기술 및 직업훈련학원
+  'P85701'  // 교육관련 자문 및 평가업
+];
 
 function industryText(tag, className, value) {
   const element = document.createElement(tag);
@@ -2271,6 +2294,10 @@ function industryText(tag, className, value) {
 
 function industryCount(value) {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function industryFormatCount(value) {
+  return value === null ? '미조회' : value.toLocaleString('ko-KR');
 }
 
 function loadIndustryData() {
@@ -2305,26 +2332,24 @@ function renderIndustryChart() {
     mulgeum: industryCount(item['물금읍']?.corp_cnt),
     daechi: industryCount(item['대치4동']?.corp_cnt)
   }));
-  categories.sort((a, b) =>
-    Math.max(b.mulgeum ?? 0, b.daechi ?? 0) - Math.max(a.mulgeum ?? 0, a.daechi ?? 0));
-  const shown = industryShowAll ? categories : categories.slice(0, 12);
-  const maxCount = Math.max(1, ...categories.flatMap(item => [item.mulgeum ?? 0, item.daechi ?? 0]));
-
-  industryTopButton.classList.toggle('is-selected', !industryShowAll);
-  industryAllButton.classList.toggle('is-selected', industryShowAll);
-  industryTopButton.setAttribute('aria-pressed', String(!industryShowAll));
-  industryAllButton.setAttribute('aria-pressed', String(industryShowAll));
+  const byCode = new Map(categories.map(item => [item.code, item]));
+  const featured = FEATURED_INDUSTRY_CODES.map(code => byCode.get(code)).filter(Boolean);
+  const maxCount = Math.max(1, ...featured.flatMap(item => [item.mulgeum ?? 0, item.daechi ?? 0]));
 
   const totals = industryData.totals || {};
   industrySummary.replaceChildren();
   [['물금읍', totals['물금읍']?.corp_cnt], ['대치4동', totals['대치4동']?.corp_cnt]].forEach(([name, count]) => {
     const box = industryText('div', 'industry-total', '');
-    box.append(industryText('span', '', name), industryText('strong', '', count == null ? '미조회' : `${count.toLocaleString('ko-KR')}개`));
+    box.append(industryText('span', '', name),
+      industryText('strong', '', count == null ? '미조회' : `${count.toLocaleString('ko-KR')}개`));
     industrySummary.append(box);
   });
 
   industryChart.replaceChildren();
-  for (const item of shown) {
+  if (!featured.length) {
+    industryChart.append(industryText('p', 'industry-error', '주요 업종 코드가 데이터와 일치하지 않습니다.'));
+  }
+  for (const item of featured) {
     const row = industryText('div', 'industry-row', '');
     row.append(industryText('div', 'industry-name', item.name));
     for (const [key, label] of [['mulgeum', '물금읍'], ['daechi', '대치4동']]) {
@@ -2334,19 +2359,22 @@ function renderIndustryChart() {
       const bar = industryText('div', `industry-bar industry-bar-${key}`, '');
       if (item[key] !== null) bar.style.width = `${(item[key] / maxCount) * 100}%`;
       track.append(bar);
-      line.append(track, industryText('strong', 'industry-count',
-        item[key] === null ? '미조회' : item[key].toLocaleString('ko-KR')));
+      line.append(track, industryText('strong', 'industry-count', industryFormatCount(item[key])));
       row.append(line);
     }
     industryChart.append(row);
   }
-}
 
-industryTopButton.addEventListener('click', () => {
-  industryShowAll = false;
-  renderIndustryChart();
-});
-industryAllButton.addEventListener('click', () => {
-  industryShowAll = true;
-  renderIndustryChart();
-});
+  // 33개 전체 업종은 그래프 대신 펼쳐보기 표로 제공한다.
+  industryTableBody.replaceChildren();
+  const sorted = [...categories].sort((a, b) =>
+    Math.max(b.mulgeum ?? -1, b.daechi ?? -1) - Math.max(a.mulgeum ?? -1, a.daechi ?? -1));
+  for (const item of sorted) {
+    const tr = document.createElement('tr');
+    tr.append(industryText('th', '', item.name),
+      industryText('td', '', industryFormatCount(item.mulgeum)),
+      industryText('td', '', industryFormatCount(item.daechi)));
+    tr.firstChild.scope = 'row';
+    industryTableBody.append(tr);
+  }
+}

@@ -1173,3 +1173,27 @@ h2 {
   .industry-heading h3 { font-size: 18px; }
   .industry-bar-line { grid-template-columns: 38px minmax(0, 1fr) 42px; gap: 5px; }
 }
+
+/* 06. 주요 업종 그래프 및 전체 업종 펼쳐보기 */
+.industry-subheading { margin: 20px 0 14px; font-size: 15px; font-weight: 700; }
+.industry-details { margin-top: 22px; border: 1px solid #dce6e1; border-radius: 12px; overflow: hidden; }
+.industry-details summary { cursor: pointer; padding: 15px 16px; background: #f4f8f6; font-size: 14px; font-weight: 700; }
+.industry-details summary:hover { background: #eaf3ee; }
+.industry-expand-hint { margin-left: 10px; font-size: 11px; font-weight: 400; color: #66746f; }
+.industry-table-wrap { max-height: 420px; overflow: auto; }
+.industry-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.industry-table th, .industry-table td { padding: 10px 12px; border-bottom: 1px solid #edf0ef; }
+.industry-table thead th { position: sticky; top: 0; background: #f9fbfa; text-align: left; }
+.industry-table td { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.industry-table tbody th { text-align: left; font-weight: 500; }
+@media (max-width: 650px) { .industry-expand-hint { display: block; margin: 3px 0 0; } }
+
+.industry-swatch-mulgeum,
+.industry-bar-mulgeum {
+  background: #A0DCD2;
+}
+
+.industry-swatch-daechi,
+.industry-bar-daechi {
+  background: #F5C0CC;
+}

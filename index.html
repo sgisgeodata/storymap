@@ -198,7 +198,7 @@
 
           <div class="story-step" data-step="industry">
             <span class="step-number">06</span>
-            <h3>교육서비스업, 어떤 업종이 많을까?</h3>
+            <h3>교육서비스업은 물금읍이 더 많은데, 학원도 그럴까?</h3>
             <p>
               전체 교육서비스업 사업체 수는 물금읍 974개, 대치4동 852개입니다.
               하지만 업종별로 살펴보면 다른 이야기가 보입니다.
@@ -208,7 +208,7 @@
               <p>
                 일반 교과 학원은 대치4동 562개, 물금읍 473개로 대치4동이 더 많습니다.
                 반면 음악학원과 스포츠 교육기관은 물금읍이 더 많습니다.
-                오른쪽 그래프에서 주요 업종과 전체 33개 업종을 비교해 보세요.
+                오른쪽에서 주요 업종의 차이를 살펴보고, 전체 33개 업종도 펼쳐 확인해 보세요.
               </p>
             </div>
           </div>
@@ -233,12 +233,18 @@
               <p>막대는 조회된 사업체 수를 나타냅니다. 미조회 값은 0으로 간주하지 않습니다.</p>
             </div>
             <div class="industry-summary" id="industry-summary"></div>
-            <div class="industry-controls" role="group" aria-label="표시할 업종 범위">
-              <button type="button" id="industry-top" class="industry-button is-selected" aria-pressed="true">주요 업종</button>
-              <button type="button" id="industry-all" class="industry-button" aria-pressed="false">전체 33개 업종</button>
-            </div>
+            <h4 class="industry-subheading">주요 업종 7개 비교</h4>
             <div class="industry-key"><span><i class="industry-swatch industry-swatch-mulgeum"></i>물금읍</span><span><i class="industry-swatch industry-swatch-daechi"></i>대치4동</span></div>
             <div id="industry-chart" class="industry-chart" aria-live="polite">데이터를 불러오는 중입니다.</div>
+            <details class="industry-details" id="industry-details">
+              <summary>전체 33개 업종 펼쳐보기 <span class="industry-expand-hint">클릭하여 상세 수치 확인</span></summary>
+              <div class="industry-table-wrap">
+                <table class="industry-table">
+                  <thead><tr><th scope="col">세부 업종</th><th scope="col">물금읍</th><th scope="col">대치4동</th></tr></thead>
+                  <tbody id="industry-table-body"></tbody>
+                </table>
+              </div>
+            </details>
             <p class="industry-footnote">자료: SGIS 전국사업체조사 API, 2024년 · 제11차 산업분류(P). 결측값은 미조회로 표시</p>
           </section>
         </div>
