@@ -1093,7 +1093,7 @@ function updateAcademyLabels(map) {
 
   visibleSet.clear();
 
-  // 04번 카드가 아니면 학원명 표시 안 함
+  // 05번 카드가 아니면 학원명 표시 안 함
   const activeStep = document.querySelector(
     '.story-step.active'
   );
@@ -1847,7 +1847,7 @@ function showStoryStep(stepName) {
     storyMulgeumMap.removeLayer(walkingLayers.mulgeum[minutes]);
   });
 
-  // 05번 카드에서만 도보권 버튼 표시
+  // 04번 카드에서만 도보권 버튼 표시
   const isWalking = stepName === 'walking';
 
   daechiWalkingControl.style.display =
@@ -1856,7 +1856,7 @@ function showStoryStep(stepName) {
   mulgeumWalkingControl.style.display =
     isWalking ? 'flex' : 'none';
 
-  // 04번 카드에서만 학원 버튼 표시
+  // 05번 카드에서만 학원 버튼 표시
   const isAcademy = stepName === 'academy';
 
   daechiAcademyControl.style.display =
@@ -2014,52 +2014,8 @@ function showStoryStep(stepName) {
     updateLegend('school');
   }
 
-  // 04. 학원·교습소
-  if (stepName === 'academy') {
 
-    // 총인구 레이어 제거
-    if (daechiPopulationLayer) {
-      storyDaechiMap.removeLayer(daechiPopulationLayer);
-    }
-
-    if (mulgeumPopulationLayer) {
-      storyMulgeumMap.removeLayer(mulgeumPopulationLayer);
-    }
-
-    // 학령인구 레이어 제거
-    if (daechiSchoolAgeLayer) {
-      storyDaechiMap.removeLayer(daechiSchoolAgeLayer);
-    }
-
-    if (mulgeumSchoolAgeLayer) {
-      storyMulgeumMap.removeLayer(mulgeumSchoolAgeLayer);
-    }
-
-    // 초·중·고 학교 레이어 제거
-    storyDaechiMap.removeLayer(daechiSchoolLayers);
-    storyMulgeumMap.removeLayer(mulgeumSchoolLayers);
-
-    // 학원·교습소 레이어 표시
-    // daechiAcademyLayers.addTo(storyDaechiMap);
-    // mulgeumAcademyLayers.addTo(storyMulgeumMap);
-
-    // 선택된 표시 범위에 따라 학원 표시
-    if (academyView.daechi === 'all') {
-      gangnamAcademyLayers.addTo(storyDaechiMap);
-    }
-    daechiAcademyLayers.addTo(storyDaechiMap);
-
-    if (academyView.mulgeum === 'all') {
-      yangsanAcademyLayers.addTo(storyMulgeumMap);
-    }
-    mulgeumAcademyLayers.addTo(storyMulgeumMap);
-
-    // 범례 변경
-    updateLegend('academy');
-
-  }
-
-  // 05. 학교 도보 접근성
+  // 04. 학교 도보 접근성
   if (stepName === 'walking') {
 
     // 기존 인구 및 학령인구 숨김
@@ -2240,6 +2196,52 @@ storySteps.forEach(step => {
   });
 
 });
+
+// 05. 학원·교습소
+if (stepName === 'academy') {
+
+  // 총인구 레이어 제거
+  if (daechiPopulationLayer) {
+    storyDaechiMap.removeLayer(daechiPopulationLayer);
+  }
+
+  if (mulgeumPopulationLayer) {
+    storyMulgeumMap.removeLayer(mulgeumPopulationLayer);
+  }
+
+  // 학령인구 레이어 제거
+  if (daechiSchoolAgeLayer) {
+    storyDaechiMap.removeLayer(daechiSchoolAgeLayer);
+  }
+
+  if (mulgeumSchoolAgeLayer) {
+    storyMulgeumMap.removeLayer(mulgeumSchoolAgeLayer);
+  }
+
+  // 초·중·고 학교 레이어 제거
+  storyDaechiMap.removeLayer(daechiSchoolLayers);
+  storyMulgeumMap.removeLayer(mulgeumSchoolLayers);
+
+  // 학원·교습소 레이어 표시
+  // daechiAcademyLayers.addTo(storyDaechiMap);
+  // mulgeumAcademyLayers.addTo(storyMulgeumMap);
+
+  // 선택된 표시 범위에 따라 학원 표시
+  if (academyView.daechi === 'all') {
+    gangnamAcademyLayers.addTo(storyDaechiMap);
+  }
+  daechiAcademyLayers.addTo(storyDaechiMap);
+
+  if (academyView.mulgeum === 'all') {
+    yangsanAcademyLayers.addTo(storyMulgeumMap);
+  }
+  mulgeumAcademyLayers.addTo(storyMulgeumMap);
+
+  // 범례 변경
+  updateLegend('academy');
+
+}
+
 
 // ==================================================
 // 06. SGIS 교육서비스업 세부 업종 비교
