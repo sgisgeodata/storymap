@@ -1061,19 +1061,99 @@
     "물금읍": {
       "expected_from_storymap": 974,
       "api_education_total": 974,
-      "leaf_category_sum": null,
+      "leaf_category_sum": 974,
       "all_leaf_categories_numeric": false,
+      "missing_company_category_codes": [
+        "P85221",
+        "P85222",
+        "P85229",
+        "P85301",
+        "P85410",
+        "P85420",
+        "P85430"
+      ],
       "matches_existing_storymap": true,
-      "matches_leaf_category_sum": false
+      "matches_leaf_category_sum": true,
+      "company_count_verified": true,
+      "company_count_note": "조회된 세부 업종 합계가 대분류 합계와 일치함. None은 원본에 유지하며 0으로 확정하지 않음.",
+      "api_education_worker_total": 4334,
+      "leaf_worker_sum_known": 4263,
+      "missing_worker_category_codes": [
+        "P85221",
+        "P85222",
+        "P85229",
+        "P85301",
+        "P85302",
+        "P85410",
+        "P85420",
+        "P85430",
+        "P85503",
+        "P85614",
+        "P85632",
+        "P85640",
+        "P85650",
+        "P85661",
+        "P85691"
+      ],
+      "matches_worker_category_sum": false,
+      "worker_count_verified": false,
+      "worker_count_status": "needs_review_missing_values"
     },
     "대치4동": {
       "expected_from_storymap": 852,
       "api_education_total": 852,
-      "leaf_category_sum": null,
+      "leaf_category_sum": 852,
       "all_leaf_categories_numeric": false,
+      "missing_company_category_codes": [
+        "P85110",
+        "P85211",
+        "P85212",
+        "P85221",
+        "P85222",
+        "P85229",
+        "P85301",
+        "P85302",
+        "P85410",
+        "P85420",
+        "P85430",
+        "P85614",
+        "P85661"
+      ],
       "matches_existing_storymap": true,
-      "matches_leaf_category_sum": false
+      "matches_leaf_category_sum": true,
+      "company_count_verified": true,
+      "company_count_note": "조회된 세부 업종 합계가 대분류 합계와 일치함. None은 원본에 유지하며 0으로 확정하지 않음.",
+      "api_education_worker_total": 4023,
+      "leaf_worker_sum_known": 3763,
+      "missing_worker_category_codes": [
+        "P85110",
+        "P85120",
+        "P85211",
+        "P85212",
+        "P85221",
+        "P85222",
+        "P85229",
+        "P85301",
+        "P85302",
+        "P85303",
+        "P85410",
+        "P85420",
+        "P85430",
+        "P85614",
+        "P85632",
+        "P85661"
+      ],
+      "matches_worker_category_sum": false,
+      "worker_count_verified": false,
+      "worker_count_status": "needs_review_missing_values"
     }
   },
-  "status": "needs_review"
+  "company_count_status": "verified",
+  "worker_count_status": "needs_review",
+  "status": "verified_company_counts",
+  "data_notes": [
+    "None은 원본 API 조회값의 부재를 뜻하며 0으로 변환하지 않았음.",
+    "사업체 수 검증은 숫자로 확인된 말단 업종의 합계와 대분류 합계 비교임.",
+    "종사자 수는 별도 검증하며 결측이 있는 경우 완전 검증으로 표시하지 않음."
+  ]
 }

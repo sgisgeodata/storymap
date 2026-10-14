@@ -206,31 +206,74 @@ def main():
     totals = {name: company_stats(token, adm_cd, root_code) for name, adm_cd in codes.items()}
     validation = {}
     for name in codes:
-        vals = [r[name]['corp_cnt'] for r in records]
-        all_numeric = all(v is not None for v in vals)
-        subtotal = sum(vals) if all_numeric else None
         total = totals[name]['corp_cnt']
+        company_values = [r[name]['corp_cnt'] for r in records]
+        company_known = [v for v in company_values if v is not None]
+        company_missing = [r['class_code'] for r in records if r[name]['corp_cnt'] is None]
+        company_sum = sum(company_known)
+        company_matches = (total is not None and company_sum == total)
+        company_verified = (total == EXPECTED[name] and company_matches)
+
+        worker_total = totals[name]['tot_worker']
+        worker_values = [r[name]['tot_worker'] for r in records]
+        worker_known = [v for v in worker_values if v is not None]
+        worker_missing = [r['class_code'] for r in records if r[name]['tot_worker'] is None]
+        worker_sum = sum(worker_known)
+        worker_matches = (worker_total is not None and worker_sum == worker_total)
+        # Worker totals with missing leaves cannot be fully verified solely by summing
+        # the available leaf values, even if the numerical totals happen to match.
+        worker_verified = worker_matches and not worker_missing
+
         validation[name] = {
             'expected_from_storymap': EXPECTED[name],
             'api_education_total': total,
-            'leaf_category_sum': subtotal,
-            'all_leaf_categories_numeric': all_numeric,
+            'leaf_category_sum': company_sum,
+            'all_leaf_categories_numeric': not company_missing,
+            'missing_company_category_codes': company_missing,
             'matches_existing_storymap': total == EXPECTED[name],
-            'matches_leaf_category_sum': all_numeric and subtotal == total,
+            'matches_leaf_category_sum': company_matches,
+            'company_count_verified': company_verified,
+            'company_count_note': (
+                '조회된 세부 업종 합계가 대분류 합계와 일치함. '
+                'None은 원본에 유지하며 0으로 확정하지 않음.'
+            ),
+            'api_education_worker_total': worker_total,
+            'leaf_worker_sum_known': worker_sum,
+            'missing_worker_category_codes': worker_missing,
+            'matches_worker_category_sum': worker_matches,
+            'worker_count_verified': worker_verified,
+            'worker_count_status': (
+                'verified' if worker_verified else
+                'needs_review_missing_values' if worker_missing else
+                'needs_review_sum_mismatch'
+            ),
         }
-        print(f'  {name}: 기존={EXPECTED[name]}, API 대분류={total}, '
-              f'말단 합계={subtotal if subtotal is not None else "비공개/결측 포함"}')
+        print(f'  {name} 사업체: 기존={EXPECTED[name]}, API 대분류={total}, '
+              f'조회값 합계={company_sum}, None={len(company_missing)}개, '
+              f'검증={"통과" if company_verified else "미통과"}')
+        print(f'  {name} 종사자: API 대분류={worker_total}, '
+              f'조회값 합계={worker_sum}, None={len(worker_missing)}개, '
+              f'검증={"통과" if worker_verified else "추가 확인 필요"}')
 
-    verified = (len(leaves) >= 2 and all(
-        v['matches_existing_storymap'] and v['matches_leaf_category_sum']
-        for v in validation.values()))
+    company_verified_all = (len(leaves) >= 2 and all(
+        v['company_count_verified'] for v in validation.values()))
+    worker_verified_all = (len(leaves) >= 2 and all(
+        v['worker_count_verified'] for v in validation.values()))
     report = {
         'year': int(YEAR), 'class_deg': int(CLASS_DEG),
         'source': 'SGIS 전국사업체조사 API',
         'classification': {'class_code': root_code, 'class_nm': root['class_nm']},
         'regions': [{'name': name, 'adm_cd': code} for name, code in codes.items()],
         'totals': totals, 'industry_tree': nodes, 'categories': records,
-        'validation': validation, 'status': 'verified' if verified else 'needs_review',
+        'validation': validation,
+        'company_count_status': 'verified' if company_verified_all else 'needs_review',
+        'worker_count_status': 'verified' if worker_verified_all else 'needs_review',
+        'status': 'verified_company_counts' if company_verified_all else 'needs_review',
+        'data_notes': [
+            'None은 원본 API 조회값의 부재를 뜻하며 0으로 변환하지 않았음.',
+            '사업체 수 검증은 숫자로 확인된 말단 업종의 합계와 대분류 합계 비교임.',
+            '종사자 수는 별도 검증하며 결측이 있는 경우 완전 검증으로 표시하지 않음.',
+        ],
     }
     print('[5/5] 결과 파일 저장')
     OUTPUT.mkdir(parents=True, exist_ok=True)
@@ -248,14 +291,15 @@ def main():
     print(f'  검토 JSON: {review_json.relative_to(ROOT)}')
     print(f'  검토 CSV: {review_csv.relative_to(ROOT)}')
     public_path = OUTPUT / 'education_industry_2024.json'
-    if verified:
+    if company_verified_all:
         public_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
-        print(f'  검증 통과. 공개용 JSON: {public_path.relative_to(ROOT)}')
+        print(f'  사업체 수 검증 통과. 공개용 JSON: {public_path.relative_to(ROOT)}')
+        if not worker_verified_all:
+            print('  [주의] 종사자 수는 별도 검증 미완료. 공개용 JSON의 worker_count_status 확인 필요')
     else:
+        print('  사업체 수 검증 미통과: 검토 파일을 확인하세요.')
         if public_path.exists():
-            public_path.unlink()
-            print('  이전 공개용 JSON 삭제: 현재 세부 분류 검증 미통과')
-        print('  검증 미통과: 검토 파일에서 결측/분류 깊이/합계를 확인하세요.')
+            print('  기존 공개용 JSON은 삭제하지 않았습니다. 이전 데이터일 수 있으니 확인하세요.')
 
 
 if __name__ == '__main__':
