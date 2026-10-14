@@ -1124,3 +1124,52 @@ h2 {
     font-size: 20px;
   }
 }
+
+/* ==================================================
+   06. 교육서비스업 세부 업종 비교
+   ================================================== */
+.story-map-panel.industry-active { grid-template-columns: minmax(0, 1fr); }
+.story-map-panel.industry-active > .story-region,
+.story-map-panel.industry-active > .story-legend { display: none; }
+.industry-panel[hidden] { display: none !important; }
+.industry-panel {
+  grid-column: 1 / -1;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--line, #e2e8e5);
+  border-radius: 18px;
+  padding: 22px;
+  max-height: min(82vh, 850px);
+  overflow-y: auto;
+}
+.industry-heading h3 { margin: 8px 0; font-size: 21px; }
+.industry-heading p, .industry-footnote { color: #66746f; font-size: 12px; line-height: 1.6; }
+.industry-eyebrow { font-size: 11px; font-weight: 700; color: #238b7d; letter-spacing: .08em; }
+.industry-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
+.industry-total { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 12px; background: #f3f7f5; }
+.industry-total span { font-size: 12px; color: #66746f; }
+.industry-total strong { font-size: 23px; }
+.industry-controls { display: flex; gap: 8px; margin: 14px 0; }
+.industry-button { border: 1px solid #d7e2de; background: #fff; color: #40544d; border-radius: 9px; padding: 8px 12px; cursor: pointer; font-size: 12px; }
+.industry-button.is-selected { background: #238b7d; color: white; border-color: #238b7d; }
+.industry-key { display: flex; gap: 16px; margin-bottom: 15px; font-size: 12px; }
+.industry-key span { display: inline-flex; align-items: center; gap: 6px; }
+.industry-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; }
+.industry-swatch-mulgeum { background: #36a99b; }
+.industry-swatch-daechi { background: #e67e93; }
+.industry-chart { display: grid; gap: 14px; }
+.industry-row { border-bottom: 1px solid #edf0ef; padding-bottom: 12px; min-width: 0; }
+.industry-name { font-weight: 650; font-size: 13px; margin-bottom: 8px; overflow-wrap: anywhere; }
+.industry-bar-line { display: grid; grid-template-columns: 38px minmax(0, 1fr) 48px; gap: 8px; align-items: center; margin: 5px 0; }
+.industry-region-name { font-size: 11px; color: #66746f; }
+.industry-track { height: 11px; background: #f1f4f2; border-radius: 4px; overflow: hidden; }
+.industry-bar { height: 100%; border-radius: 4px; }
+.industry-bar-mulgeum { background: #36a99b; }
+.industry-bar-daechi { background: #e67e93; }
+.industry-count { text-align: right; font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.industry-error { color: #a43c43; font-size: 13px; }
+@media (max-width: 650px) {
+  .industry-panel { max-height: none; overflow: visible; padding: 15px; }
+  .industry-heading h3 { font-size: 18px; }
+  .industry-bar-line { grid-template-columns: 38px minmax(0, 1fr) 42px; gap: 5px; }
+}

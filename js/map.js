@@ -82,8 +82,7 @@ const dongStyle = {
 const storyBoundaryStyle = {
   color: '#666666',
   weight: 1.5,
-  fillOpacity: 0,
-  interactive: false
+  fillOpacity: 0
 };
 
 // --------------------------------------------------
@@ -232,13 +231,6 @@ L.tileLayer(
   }
 ).addTo(storyMulgeumMap);
 
-// 행정경계를 인구 격자보다 위에 표시
-[storyDaechiMap, storyMulgeumMap].forEach(map => {
-  map.createPane('boundaryPane');
-  map.getPane('boundaryPane').style.zIndex = 460;
-  map.getPane('boundaryPane').style.pointerEvents = 'none';
-});
-
 
 // 대치4동 경계
 fetch('data/daechi4_boundary.geojson')
@@ -246,7 +238,6 @@ fetch('data/daechi4_boundary.geojson')
   .then(data => {
 
     const layer = L.geoJSON(data, {
-      pane: 'boundaryPane',
       style: storyBoundaryStyle
     }).addTo(storyDaechiMap);
 
@@ -264,7 +255,6 @@ fetch('data/mulgeum_boundary.geojson')
   .then(data => {
 
     const layer = L.geoJSON(data, {
-      pane: 'boundaryPane',
       style: storyBoundaryStyle
     }).addTo(storyMulgeumMap);
 
@@ -1836,6 +1826,12 @@ function showStoryStep(stepName) {
 
   currentStoryStep = stepName;
 
+  // 06번 카드에서는 지도 대신 업종별 비교 그래프 표시
+  const industryActive = stepName === 'industry';
+  storyMapPanel.classList.toggle('industry-active', industryActive);
+  document.getElementById('industry-panel').hidden = !industryActive;
+  if (industryActive) loadIndustryData();
+
   // 모바일에서는 현재 카드 아래로 지도 이동
   placeStoryMapPanel(stepName);
 
@@ -1890,6 +1886,16 @@ function showStoryStep(stepName) {
     activeStep.classList.add('active');
   }
 
+
+  // 06. 업종 비교: 다른 단계에서 사용한 지도 레이어 제거
+  if (stepName === 'industry') {
+    [daechiPopulationLayer, daechiSchoolAgeLayer, daechiSchoolLayers].forEach(layer => {
+      if (layer) storyDaechiMap.removeLayer(layer);
+    });
+    [mulgeumPopulationLayer, mulgeumSchoolAgeLayer, mulgeumSchoolLayers].forEach(layer => {
+      if (layer) storyMulgeumMap.removeLayer(layer);
+    });
+  }
 
   // ------------------------------------------
   // 01. 총인구
@@ -2233,4 +2239,104 @@ storySteps.forEach(step => {
 
   });
 
+});
+
+// ==================================================
+// 06. SGIS 교육서비스업 세부 업종 비교
+// ==================================================
+const industryChart = document.getElementById('industry-chart');
+const industrySummary = document.getElementById('industry-summary');
+const industryTopButton = document.getElementById('industry-top');
+const industryAllButton = document.getElementById('industry-all');
+let industryDataPromise = null;
+let industryData = null;
+let industryShowAll = false;
+
+function industryText(tag, className, value) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  element.textContent = String(value);
+  return element;
+}
+
+function industryCount(value) {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function loadIndustryData() {
+  if (industryDataPromise) return industryDataPromise;
+  industryDataPromise = fetch('data/education_industry_2024.json')
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then(data => {
+      if (data.company_count_status !== 'verified' || !Array.isArray(data.categories)) {
+        throw new Error('사업체 수 검증 상태 또는 업종 목록을 확인하세요.');
+      }
+      industryData = data;
+      renderIndustryChart();
+      return data;
+    })
+    .catch(error => {
+      industryDataPromise = null;
+      industryChart.replaceChildren(industryText('p', 'industry-error',
+        `업종 데이터를 불러올 수 없습니다: ${error.message}. data/education_industry_2024.json 파일을 확인하세요.`));
+      console.error('교육서비스업 세부 업종 데이터 오류:', error);
+    });
+  return industryDataPromise;
+}
+
+function renderIndustryChart() {
+  if (!industryData) return;
+  const categories = industryData.categories.map(item => ({
+    code: item.class_code,
+    name: item.class_nm,
+    mulgeum: industryCount(item['물금읍']?.corp_cnt),
+    daechi: industryCount(item['대치4동']?.corp_cnt)
+  }));
+  categories.sort((a, b) =>
+    Math.max(b.mulgeum ?? 0, b.daechi ?? 0) - Math.max(a.mulgeum ?? 0, a.daechi ?? 0));
+  const shown = industryShowAll ? categories : categories.slice(0, 12);
+  const maxCount = Math.max(1, ...categories.flatMap(item => [item.mulgeum ?? 0, item.daechi ?? 0]));
+
+  industryTopButton.classList.toggle('is-selected', !industryShowAll);
+  industryAllButton.classList.toggle('is-selected', industryShowAll);
+  industryTopButton.setAttribute('aria-pressed', String(!industryShowAll));
+  industryAllButton.setAttribute('aria-pressed', String(industryShowAll));
+
+  const totals = industryData.totals || {};
+  industrySummary.replaceChildren();
+  [['물금읍', totals['물금읍']?.corp_cnt], ['대치4동', totals['대치4동']?.corp_cnt]].forEach(([name, count]) => {
+    const box = industryText('div', 'industry-total', '');
+    box.append(industryText('span', '', name), industryText('strong', '', count == null ? '미조회' : `${count.toLocaleString('ko-KR')}개`));
+    industrySummary.append(box);
+  });
+
+  industryChart.replaceChildren();
+  for (const item of shown) {
+    const row = industryText('div', 'industry-row', '');
+    row.append(industryText('div', 'industry-name', item.name));
+    for (const [key, label] of [['mulgeum', '물금읍'], ['daechi', '대치4동']]) {
+      const line = industryText('div', 'industry-bar-line', '');
+      line.append(industryText('span', 'industry-region-name', label));
+      const track = industryText('div', 'industry-track', '');
+      const bar = industryText('div', `industry-bar industry-bar-${key}`, '');
+      if (item[key] !== null) bar.style.width = `${(item[key] / maxCount) * 100}%`;
+      track.append(bar);
+      line.append(track, industryText('strong', 'industry-count',
+        item[key] === null ? '미조회' : item[key].toLocaleString('ko-KR')));
+      row.append(line);
+    }
+    industryChart.append(row);
+  }
+}
+
+industryTopButton.addEventListener('click', () => {
+  industryShowAll = false;
+  renderIndustryChart();
+});
+industryAllButton.addEventListener('click', () => {
+  industryShowAll = true;
+  renderIndustryChart();
 });
