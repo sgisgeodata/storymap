@@ -82,7 +82,8 @@ const dongStyle = {
 const storyBoundaryStyle = {
   color: '#666666',
   weight: 1.5,
-  fillOpacity: 0
+  fillOpacity: 0,
+  interactive: false
 };
 
 // --------------------------------------------------
@@ -231,6 +232,13 @@ L.tileLayer(
   }
 ).addTo(storyMulgeumMap);
 
+// 행정경계를 인구 격자보다 위에 표시
+[storyDaechiMap, storyMulgeumMap].forEach(map => {
+  map.createPane('boundaryPane');
+  map.getPane('boundaryPane').style.zIndex = 460;
+  map.getPane('boundaryPane').style.pointerEvents = 'none';
+});
+
 
 // 대치4동 경계
 fetch('data/daechi4_boundary.geojson')
@@ -238,6 +246,7 @@ fetch('data/daechi4_boundary.geojson')
   .then(data => {
 
     const layer = L.geoJSON(data, {
+      pane: 'boundaryPane',
       style: storyBoundaryStyle
     }).addTo(storyDaechiMap);
 
@@ -255,6 +264,7 @@ fetch('data/mulgeum_boundary.geojson')
   .then(data => {
 
     const layer = L.geoJSON(data, {
+      pane: 'boundaryPane',
       style: storyBoundaryStyle
     }).addTo(storyMulgeumMap);
 
