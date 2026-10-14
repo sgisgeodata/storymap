@@ -1103,7 +1103,7 @@ function updateAcademyLabels(map) {
 
   visibleSet.clear();
 
-  // 04번 카드가 아니면 학원명 표시 안 함
+  // 05번 카드가 아니면 학원명 표시 안 함
   const activeStep = document.querySelector(
     '.story-step.active'
   );
@@ -1857,7 +1857,7 @@ function showStoryStep(stepName) {
     storyMulgeumMap.removeLayer(walkingLayers.mulgeum[minutes]);
   });
 
-  // 05번 카드에서만 도보권 버튼 표시
+  // 04번 카드에서만 도보권 버튼 표시
   const isWalking = stepName === 'walking';
 
   daechiWalkingControl.style.display =
@@ -1866,7 +1866,7 @@ function showStoryStep(stepName) {
   mulgeumWalkingControl.style.display =
     isWalking ? 'flex' : 'none';
 
-  // 04번 카드에서만 학원 버튼 표시
+  // 05번 카드에서만 학원 버튼 표시
   const isAcademy = stepName === 'academy';
 
   daechiAcademyControl.style.display =
@@ -2024,7 +2024,7 @@ function showStoryStep(stepName) {
     updateLegend('school');
   }
 
-  // 04. 학원·교습소
+  // 05. 학원·교습소
   if (stepName === 'academy') {
 
     // 총인구 레이어 제거
@@ -2069,7 +2069,7 @@ function showStoryStep(stepName) {
 
   }
 
-  // 05. 학교 도보 접근성
+  // 04. 학교 도보 접근성
   if (stepName === 'walking') {
 
     // 기존 인구 및 학령인구 숨김
