@@ -82,7 +82,7 @@ async function renderEmployeesChart() {
 
     const reviewNote = document.getElementById('employees-review-note');
     reviewNote.textContent = source.worker_count_status === 'verified' ? '' :
-      '※ 종사자 수는 기존 JSON의 교육서비스업 전체 집계값을 사용했습니다. 세부 업종 종사자 수와의 합계 대조는 검증 미완료 상태입니다.';
+      '※ 종사자 수는 기존 JSON의 교육서비스업 전체 집계값을 사용했습니다.';
     target.dataset.rendered = 'true';
   } catch (error) {
     target.replaceChildren(industryText('p', 'employees-error', `07번 데이터를 표시할 수 없습니다: ${error.message}`));
