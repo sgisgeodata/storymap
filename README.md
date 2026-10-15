@@ -93,23 +93,30 @@
 
 ```text
 Education-Service-Storymap/
-├── index.html                 # 스토리맵 페이지
+├── index.html                        # 스토리맵 페이지
 ├── css/
-│   └── style.css              # 전체 스타일 및 반응형 디자인
+│   └── style.css                     # 전체 스타일 및 반응형 디자인
 ├── js/
-│   ├── overview-maps.js       # 도입부 위치·행정경계 지도
-│   ├── story-maps.js          # 인구·학교·학원·도보권 지도 및 범례
-│   ├── industry.js            # 06번 교육서비스업 세부 업종 비교
-│   ├── employees.js           # 07번 종사자 수 비교
-│   └── story-controller.js    # 스크롤·카드 전환·모바일 지도 배치
+│   ├── map.js                        # 초기 지도 코드 보관(주석 처리·미사용)
+│   ├── 01-overview-maps.js           # 도입부 위치·행정경계 지도
+│   ├── 02-story-maps.js              # 기능별 분리 이전 코드 보관(주석 처리·미사용)
+│   ├── 02-story-map-base.js          # 스토리 지도 생성 및 공통 범례
+│   ├── 03-population.js              # 01번 총인구 격자 지도
+│   ├── 04-school-age.js              # 02번 학령인구 격자 지도
+│   ├── 05-school.js                  # 03번 학교 위치 지도
+│   ├── 06-walking.js                 # 04번 학교 도보 접근성 지도
+│   ├── 07-academy.js                 # 05번 학원·교습소 위치 지도
+│   ├── 08-industry.js                # 06번 교육서비스업 세부 업종 비교
+│   ├── 09-employees.js               # 07번 사업체·종사자 수 비교
+│   └── 10-story-controller.js        # 스크롤·카드 전환·모바일 지도 배치
 ├── data/
 │   ├── education_industry_2024.json  # 2024년 교육서비스업 집계
-│   ├── *_boundary.geojson     # 행정경계
-│   ├── *_population.geojson   # 총인구 격자
-│   ├── *_school_age.geojson   # 학령인구 격자
-│   ├── *_school.geojson       # 학교 위치
-│   ├── *_academy.geojson      # 학원·교습소 위치
-│   └── *_walk_*min.geojson    # 학교 도보 접근성
+│   ├── *_boundary.geojson            # 행정경계
+│   ├── *_population.geojson          # 총인구 격자
+│   ├── *_school_age.geojson          # 학령인구 격자
+│   ├── *_school.geojson              # 학교 위치
+│   ├── *_academy.geojson             # 학원·교습소 위치
+│   └── *_walk_*min.geojson           # 학교 도보 접근성
 └── README.md
 ```
 
