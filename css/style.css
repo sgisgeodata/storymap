@@ -1125,6 +1125,74 @@ h2 {
   }
 }
 
+/* ==========================================
+   06. 지역별 업종 구성비 파이차트
+========================================== */
+
+.industry-pies {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.industry-pie-card {
+  min-width: 0;
+  padding: 18px 12px;
+  background: #f8faf9;
+  border: 1px solid #e5ebe8;
+  border-radius: 14px;
+}
+
+.industry-pie-card h5 {
+  margin: 0 0 16px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.industry-pie {
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+}
+
+.industry-pie-legend {
+  display: grid;
+  gap: 9px;
+}
+
+.industry-pie-legend-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+}
+
+.industry-pie-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.industry-pie-legend-row strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.industry-pie-note {
+  color: #66746f;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* 좁은 화면에서는 파이차트를 세로로 배치 */
+@media (max-width: 650px) {
+  .industry-pies {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ==================================================
    06. 교육서비스업 세부 업종 비교
    ================================================== */

@@ -2328,6 +2328,107 @@ function loadIndustryData() {
   return industryDataPromise;
 }
 
+// ==================================================
+// 06-1. 지역별 주요 7개 업종 파이차트
+// ==================================================
+
+const INDUSTRY_PIE_COLORS = [
+  '#FFE680', // 레몬 옐로우
+  '#FFB48F', // 피치 오렌지
+  '#B9A7F5', // 라이트 퍼플
+  '#8FD3FF', // 스카이 블루
+  '#B5E88C', // 애플 그린
+  '#E2B4FF', // 라일락
+  '#82E2E5'  // 아쿠아 블루
+];
+
+function renderIndustryPie(targetId, featured, regionKey) {
+
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  target.replaceChildren();
+
+  // 미조회 값을 0으로 바꾸지 않고 제외
+  const valid = featured.filter(item =>
+    typeof item[regionKey] === 'number' &&
+    Number.isFinite(item[regionKey]) &&
+    item[regionKey] > 0
+  );
+
+  const total = valid.reduce(
+    (sum, item) => sum + item[regionKey],
+    0
+  );
+
+  if (total === 0) {
+    target.textContent = '표시할 데이터가 없습니다.';
+    return;
+  }
+
+  let current = 0;
+  const segments = [];
+
+  valid.forEach((item, index) => {
+
+    const percent = item[regionKey] / total * 100;
+    const next = current + percent;
+
+    segments.push(
+      `${INDUSTRY_PIE_COLORS[index % INDUSTRY_PIE_COLORS.length]} ${current}% ${next}%`
+    );
+
+    current = next;
+  });
+
+  const pie = document.createElement('div');
+  pie.className = 'industry-pie';
+  pie.style.background =
+    `conic-gradient(${segments.join(', ')})`;
+
+  pie.setAttribute('role', 'img');
+  pie.setAttribute(
+    'aria-label',
+    `주요 업종 구성비: ${valid.map(item =>
+      `${item.name} ${(item[regionKey] / total * 100).toFixed(1)}%`
+    ).join(', ')}`
+  );
+
+  const legend = document.createElement('div');
+  legend.className = 'industry-pie-legend';
+
+  valid.forEach((item, index) => {
+
+    const row = document.createElement('div');
+    row.className = 'industry-pie-legend-row';
+
+    const swatch = document.createElement('span');
+    swatch.className = 'industry-pie-swatch';
+    swatch.style.background =
+      INDUSTRY_PIE_COLORS[index % INDUSTRY_PIE_COLORS.length];
+
+    const label = document.createElement('span');
+    label.textContent = item.name;
+
+    const value = document.createElement('strong');
+    value.textContent =
+      `${(item[regionKey] / total * 100).toFixed(1)}%`;
+
+    row.append(swatch, label, value);
+    legend.append(row);
+  });
+
+  target.append(pie, legend);
+
+  if (valid.length < featured.length) {
+    const note = document.createElement('p');
+    note.className = 'industry-pie-note';
+    note.textContent =
+      '일부 업종은 0개 또는 미조회로 구성비 계산에서 제외되었습니다.';
+    target.append(note);
+  }
+}
+
 function renderIndustryChart() {
   if (!industryData) return;
   const categories = industryData.categories.map(item => ({
@@ -2338,6 +2439,21 @@ function renderIndustryChart() {
   }));
   const byCode = new Map(categories.map(item => [item.code, item]));
   const featured = FEATURED_INDUSTRY_CODES.map(code => byCode.get(code)).filter(Boolean);
+  
+  // 물금읍 파이차트
+  renderIndustryPie(
+    'industry-pie-mulgeum',
+    featured,
+    'mulgeum'
+  );
+
+  // 대치4동 파이차트
+  renderIndustryPie(
+    'industry-pie-daechi',
+    featured,
+    'daechi'
+  );
+
   const maxCount = Math.max(1, ...featured.flatMap(item => [item.mulgeum ?? 0, item.daechi ?? 0]));
 
   const totals = industryData.totals || {};
