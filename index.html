@@ -143,6 +143,29 @@
               </p>
             </div>
           </div>
+          <!-- 02번 확장: 학령인구 시계열 -->
+        <div class="story-step story-trend-step"
+            data-step="school-age-trend">
+
+          <span class="step-number">02 · TREND</span>
+          <h3>지난 10년간 학령인구는 어떻게 변했을까?</h3>
+
+          <p>
+            학령인구가 어디에 분포하는지 살펴봤다면,
+            이번에는 2015년부터 2024년까지
+            두 지역의 변화를 비교해 보겠습니다.
+          </p>
+
+          <div class="story-point">
+            <strong>POINT</strong>
+            <p>
+              물금읍의 학령인구는 9,824명에서 18,097명으로
+              84.2% 증가했습니다.
+              반면 대치4동은 2,665명에서 1,900명으로
+              28.7% 감소했습니다.
+            </p>
+          </div>
+        </div>
 
           <div class="story-step" data-step="school">
             <span class="step-number">03</span>
@@ -223,6 +246,42 @@
 
         <!-- 오른쪽: 고정 비교지도 -->
         <div class="story-map-panel">
+        <!-- 학령인구 시계열 그래프 -->
+        <section id="school-age-trend-panel"
+                class="school-age-trend-panel"
+                hidden
+                aria-label="학령인구 시계열 비교">
+
+          <div class="trend-heading">
+            <span class="trend-eyebrow">
+              SCHOOL-AGE POPULATION · 2015–2024
+            </span>
+
+            <h3>두 지역의 학령인구 변화</h3>
+
+            <p>2015~2024년 · 단위: 명</p>
+          </div>
+
+          <div class="trend-legend">
+            <span>
+              <i class="trend-dot mulgeum"></i>
+              물금읍
+            </span>
+
+            <span>
+              <i class="trend-dot daechi"></i>
+              대치4동
+            </span>
+          </div>
+
+          <div id="school-age-trend-chart"></div>
+
+          <p class="trend-source">
+            자료: SGIS 성·연령그룹별 인구
+            (in_grp_002 + in_grp_003 + in_grp_004)
+          </p>
+
+        </section>
           <div class="story-region">
             <h3>대치4동</h3>
             <div id="story-daechi-map"></div>

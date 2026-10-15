@@ -123,6 +123,23 @@ function showStoryStep(stepName) {
   // 06번 카드에서는 지도 대신 업종별 비교 그래프 표시
   const industryActive = stepName === 'industry';
   const employeesActive = stepName === 'employees';
+  // 학령인구 시계열 그래프 단계
+  const trendActive = stepName === 'school-age-trend';
+
+  storyMapPanel.classList.toggle(
+    'trend-active',
+    trendActive
+  );
+
+  document.getElementById(
+    'school-age-trend-panel'
+  ).hidden = !trendActive;
+
+  if (trendActive) {
+    renderSchoolAgeTrend();
+  } else {
+    stopSchoolAgeTrend();
+  }
   storyMapPanel.classList.toggle('industry-active', industryActive);
   storyMapPanel.classList.toggle('employees-active', employeesActive);
   document.getElementById('industry-panel').hidden = !industryActive;

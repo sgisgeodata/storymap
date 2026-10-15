@@ -334,6 +334,123 @@ h2 {
   color: #555;
 }
 
+/* ==========================================
+   02번 학령인구 시계열 그래프
+========================================== */
+
+/* 기존 02번 카드의 확장 화면 */
+.story-trend-step {
+  border-left: 3px solid #36A99B;
+}
+
+/* 그래프 패널 */
+.school-age-trend-panel {
+  background: #ffffff;
+  border: 1px solid #e5e9e8;
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.school-age-trend-panel[hidden] {
+  display: none !important;
+}
+
+/* 제목 */
+.trend-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #36A99B;
+}
+
+.trend-heading h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: #263238;
+}
+
+.trend-heading p {
+  margin: 0;
+  font-size: 13px;
+  color: #777;
+}
+
+/* 범례 */
+.trend-legend {
+  display: flex;
+  gap: 20px;
+  margin: 22px 0 12px;
+  font-size: 13px;
+}
+
+.trend-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.trend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.trend-dot.mulgeum {
+  background: #36A99B;
+}
+
+.trend-dot.daechi {
+  background: #E67E93;
+}
+
+/* SVG 그래프 */
+#school-age-trend-chart {
+  width: 100%;
+  min-width: 0;
+}
+
+#school-age-trend-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 자료 출처 */
+.trend-source {
+  margin: 12px 0 0;
+  font-size: 11px;
+  color: #888;
+  line-height: 1.6;
+}
+
+/* 시계열 화면에서 기존 지도·범례 숨김 */
+.story-map-panel.trend-active > .story-region,
+.story-map-panel.trend-active > #story-legend {
+  display: none !important;
+}
+
+/* 그래프가 패널 너비 전체 사용 */
+.story-map-panel.trend-active {
+  display: block;
+}
+
+/* 모바일 */
+@media (max-width: 900px) {
+  .school-age-trend-panel {
+    padding: 20px 12px;
+  }
+
+  .trend-heading h3 {
+    font-size: 17px;
+  }
+}
+
 /* 학교명 지도 라벨 */
 .school-label {
   background: rgba(255, 255, 255, 0.9);
