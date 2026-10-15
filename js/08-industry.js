@@ -35,6 +35,12 @@ function industryFormatCount(value) {
 
 function loadIndustryData() {
   if (industryDataPromise) return industryDataPromise;
+
+  // 데이터 로딩 중 안내 문구 표시
+  if (industryChart) {
+    industryChart.textContent = '데이터를 불러오는 중입니다.';
+  }
+  
   industryDataPromise = fetch('data/education_industry_2024.json')
     .then(response => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
