@@ -619,7 +619,7 @@ h2 {
 }
 
 .conclusion-message p {
-  max-width: 750px;
+  max-width: 1050px;
   margin: 0 auto 22px;
   color: #555;
   line-height: 1.9;
@@ -1212,7 +1212,15 @@ h2 {
 }
 .industry-heading h3 { margin: 8px 0; font-size: 21px; }
 .industry-heading p, .industry-footnote { color: #66746f; font-size: 12px; line-height: 1.6; }
-.industry-eyebrow { font-size: 11px; font-weight: 700; color: #238b7d; letter-spacing: .08em; }
+/* 06·07 교육서비스업 패널 상단 라벨 통일 */
+.industry-eyebrow,
+.employees-eyebrow {
+  display: inline-block;
+  color: #238b7d;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
 .industry-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
 .industry-total { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 12px; background: #f3f7f5; }
 .industry-total span { font-size: 12px; color: #66746f; }
@@ -1273,7 +1281,6 @@ h2 {
 .story-map-panel.employees-active > .story-legend { display: none; }
 .employees-panel[hidden] { display: none !important; }
 .employees-panel { grid-column: 1 / -1; min-width: 0; background: #fff; border: 1px solid #e3e8eb; border-radius: 18px; padding: 22px; max-height: min(82vh, 850px); overflow-y: auto; }
-.employees-eyebrow { color: #617a91; font-size: 11px; font-weight: 700; letter-spacing: .07em; }
 .employees-panel h3 { font-size: 21px; margin: 9px 0; }
 .employees-lead,.employees-footnote { color: #66746f; font-size: 12px; line-height: 1.65; }
 .employees-metrics { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin: 20px 0; }
@@ -1295,3 +1302,15 @@ h2 {
 
 /* 07번 데이터 조회 오류 안내 */
 .employees-error { color: #a43c43; font-size: 13px; }
+
+/* Conclusion: compact metrics comparison */
+.conclusion-metrics {margin-top:24px;padding:24px 26px;border:1px solid #e8e8e8;border-radius:12px;background:#fff;}
+.conclusion-metrics h3 {margin:0 0 16px;font-size:19px;}
+.conclusion-table-wrap {width:100%;overflow-x:auto;}
+.conclusion-table {width:100%;border-collapse:collapse;font-size:14px;}
+.conclusion-table th,.conclusion-table td {padding:12px 10px;border-bottom:1px solid #e8e8e8;text-align:right;font-variant-numeric:tabular-nums;}
+.conclusion-table th:first-child {text-align:left;}
+.conclusion-table thead th {color:#576760;background:#f7faf8;font-weight:700;}
+.conclusion-metrics>p {margin:16px 0 0;color:#555;line-height:1.85;font-size:14px;}
+.conclusion-message .conclusion-inline-strong {display:inline;color:inherit;font-size:inherit;}
+@media(max-width:650px){.conclusion-metrics{padding:18px 14px;}.conclusion-table{font-size:12px;}.conclusion-table th,.conclusion-table td{padding:10px 5px;}}
