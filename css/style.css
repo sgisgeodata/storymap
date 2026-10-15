@@ -1224,3 +1224,6 @@ h2 {
 .employees-insight { background: #f5f7fa; padding: 15px; border-radius: 12px; margin-top: 18px; font-size: 13px; line-height: 1.7; }
 .employees-insight p { margin: 6px 0 0; }
 @media (max-width: 650px) { .employees-panel { max-height: none; overflow: visible; padding: 16px; } .employees-bar-row { grid-template-columns: 48px minmax(0,1fr) 76px; gap: 6px; } .employees-bar-row strong { font-size: 11px; } }
+
+/* 07번 데이터 조회 오류 안내 */
+.employees-error { color: #a43c43; font-size: 13px; }

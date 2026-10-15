@@ -217,7 +217,7 @@
             <span class="step-number">07</span>
             <h3>사업체가 많으면, 종사자도 많을까?</h3>
             <p>교육서비스업 사업체 수와 종사자 수를 함께 비교합니다. 사업체당 평균 종사자 수까지 살펴보면 두 지역의 차이가 새롭게 보입니다.</p>
-            <div class="story-point"><strong>POINT</strong><p>물금읍은 사업체 수와 종사자 수가 모두 많지만, 사업체당 평균 종사자 수는 대치4동이 더 높습니다. 사업체 수만으로 지역의 교육서비스업 규모를 설명할 수 있을까요?</p></div>
+            <div class="story-point"><strong>POINT</strong><p>사업체 수뿐 아니라 종사자 수와 사업체당 평균 종사자 수를 비교해 두 지역의 규모 차이를 살펴봅니다. 사업체 수만으로 교육서비스업 규모를 설명할 수 있을까요?</p></div>
           </div>
         </div>
 
@@ -259,13 +259,11 @@
             <span class="employees-eyebrow">07 · 2024 SGIS EDUCATION SERVICES</span>
             <h3>사업체 수와 종사자 수, 같은 결과일까?</h3>
             <p class="employees-lead">두 지역의 교육서비스업 규모를 세 가지 지표로 비교합니다.</p>
-            <div class="employees-metrics">
-              <div class="employees-metric"><span>물금읍 · 종사자 수</span><strong>4,334<small>명</small></strong><span>974개 사업체</span></div>
-              <div class="employees-metric"><span>대치4동 · 종사자 수</span><strong>4,023<small>명</small></strong><span>852개 사업체</span></div>
-            </div>
+            <div class="employees-metrics" id="employees-metrics" aria-live="polite"></div>
             <div id="employees-chart" class="employees-chart" aria-label="사업체 수, 종사자 수, 사업체당 평균 종사자 수 비교"></div>
-            <div class="employees-insight"><strong>핵심 발견</strong><p>물금읍은 사업체가 122개, 종사자가 311명 더 많습니다. 반면 사업체당 평균 종사자 수는 대치4동이 약 4.72명으로, 물금읍의 약 4.45명보다 높습니다.</p></div>
-            <p class="employees-footnote">자료: SGIS 전국사업체조사, 2024년 교육서비스업 전체 집계 기준. 평균 = 종사자 수 ÷ 사업체 수. 사업체당 평균은 개별 사업체의 규모를 직접 나타내지는 않습니다.</p>
+            <div class="employees-insight"><strong>핵심 발견</strong><p id="employees-insight-text">데이터를 불러온 뒤 비교 결과를 표시합니다.</p></div>
+            <p class="employees-footnote">자료: SGIS 전국사업체조사 API에서 수집한 기존 2024년 교육서비스업 JSON의 전체 집계값. 평균 = 종사자 수 ÷ 사업체 수.</p>
+            <p class="employees-footnote" id="employees-review-note"></p>
           </section>
         </div>
       </div>
