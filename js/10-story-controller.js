@@ -152,8 +152,27 @@ function showStoryStep(stepName) {
 
   // 일반 카드에서는 행정동 경계로 초점 초기화
   // 05번은 선택된 학원 표시 범위에 맞춰 별도 설정
-  if (stepName !== 'academy') {
-    resetStoryMapView();
+  // if (stepName !== 'academy') {
+  //   resetStoryMapView();
+  // }
+  // 일반 카드에서는 행정동 경계로 초점 초기화
+  // 그래프에서 지도로 돌아올 때 크기를 먼저 재계산
+  // 05번 학원 카드는 별도의 지도 범위 설정 사용
+  if (stepName !== 'academy' && !trendActive && !industryActive && !employeesActive) {
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+
+        // 숨겨졌던 지도 크기 다시 계산
+        storyDaechiMap.invalidateSize({ pan: false });
+        storyMulgeumMap.invalidateSize({ pan: false });
+
+        // 크기 계산 후 행정구역 중심으로 복귀
+        resetStoryMapView();
+
+      });
+    });
+
   }
 
   // 다른 단계로 이동하면 도보권 숨김
