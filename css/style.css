@@ -389,8 +389,8 @@ h2 {
 
 /* 강남구·양산시 전체 버튼: 연한 분홍 */
 .academy-map-control button[data-mode="all"].selected {
-  background: #EAB4D3;
-  border-color: #EAB4D3;
+  background: #DE93BF;
+  border-color: #DE93BF;
   color: #6B2854;
 }
 

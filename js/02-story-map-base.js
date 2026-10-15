@@ -216,7 +216,7 @@ function updateLegend(type) {
 
       <span class="legend-item">
         <span class="legend-color"
-              style="background:#EAB4D3;"></span>
+              style="background:#DE93BF;"></span>
         강남구·양산시
       </span>
 

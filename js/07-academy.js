@@ -333,7 +333,7 @@ function createAcademyMarker(feature, isLocal) {
     radius: isLocal ? 3.5 : 3.5,
     color: '#ffffff',
     weight: isLocal ? 0.6 : 0.3,
-    fillColor: isLocal ? '#C64A99' : '#EAB4D3',
+    fillColor: isLocal ? '#C64A99' : '#DE93BF',
     fillOpacity: isLocal ? 0.9 : 0.65
   });
 
