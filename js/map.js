@@ -1838,9 +1838,13 @@ function showStoryStep(stepName) {
 
   // 06번 카드에서는 지도 대신 업종별 비교 그래프 표시
   const industryActive = stepName === 'industry';
+  const employeesActive = stepName === 'employees';
   storyMapPanel.classList.toggle('industry-active', industryActive);
+  storyMapPanel.classList.toggle('employees-active', employeesActive);
   document.getElementById('industry-panel').hidden = !industryActive;
+  document.getElementById('employees-panel').hidden = !employeesActive;
   if (industryActive) loadIndustryData();
+  if (employeesActive) renderEmployeesChart();
 
   // 모바일에서는 현재 카드 아래로 지도 이동
   placeStoryMapPanel(stepName);
@@ -2377,4 +2381,54 @@ function renderIndustryChart() {
     tr.firstChild.scope = 'row';
     industryTableBody.append(tr);
   }
+}
+
+// ==================================================
+// 07. 사업체 수와 종사자 수 비교
+// ==================================================
+const EMPLOYEE_COMPARISON = {
+  mulgeum: { name: '물금읍', establishments: 974, employees: 4334 },
+  daechi: { name: '대치4동', establishments: 852, employees: 4023 }
+};
+function renderEmployeesChart() {
+  const target = document.getElementById('employees-chart');
+  if (!target || target.dataset.rendered === 'true') return;
+  const specs = [
+    { title: '교육서비스업 사업체 수', key: 'establishments', unit: '개', digits: 0 },
+    { title: '교육서비스업 종사자 수', key: 'employees', unit: '명', digits: 0 },
+    { title: '사업체당 평균 종사자 수', key: 'average', unit: '명/개', digits: 2 }
+  ];
+  const data = Object.entries(EMPLOYEE_COMPARISON).map(([id, region]) => ({
+    id, ...region, average: region.employees / region.establishments
+  }));
+  const format = (value, digits) => value.toLocaleString('ko-KR', {
+    minimumFractionDigits: digits, maximumFractionDigits: digits
+  });
+  target.replaceChildren();
+  specs.forEach(spec => {
+    const section = document.createElement('section');
+    section.className = 'employees-chart-group';
+    const heading = document.createElement('h4');
+    heading.textContent = spec.title;
+    section.append(heading);
+    const maximum = Math.max(...data.map(item => item[spec.key]));
+    data.forEach(item => {
+      const line = document.createElement('div');
+      line.className = 'employees-bar-row';
+      const name = document.createElement('span');
+      name.textContent = item.name;
+      const track = document.createElement('div');
+      track.className = 'employees-bar-track';
+      const bar = document.createElement('div');
+      bar.className = `employees-bar employees-bar-${item.id}`;
+      bar.style.width = `${item[spec.key] / maximum * 100}%`;
+      track.append(bar);
+      const number = document.createElement('strong');
+      number.textContent = `${format(item[spec.key], spec.digits)}${spec.unit}`;
+      line.append(name, track, number);
+      section.append(line);
+    });
+    target.append(section);
+  });
+  target.dataset.rendered = 'true';
 }
