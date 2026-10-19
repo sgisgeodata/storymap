@@ -1,2 +1,2 @@
-# storymap
-이야기가 있는 지도
+[https://sgisgeodata.github.io/storymap/education-service](https://sgisgeodata.github.io/sgis-data-manual/storymap/mulgeum_academy)
+
