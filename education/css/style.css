@@ -1,0 +1,1433 @@
+body {
+  margin: 0;
+  font-family: "Noto Sans KR", Arial, sans-serif;
+  line-height: 1.7;
+  color: #222;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 30px;
+}
+
+h1 {
+  font-size: 38px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 60px;
+  font-size: 28px;
+}
+
+#map {
+  width: 100%;
+  height: 600px;
+  margin-top: 30px;
+  border-radius: 10px;
+}
+
+.compare-maps {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.map-box {
+  flex: 1;
+}
+
+.map-box h3 {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+#gangnam-map,
+#yangsan-map {
+  width: 100%;
+  height: 450px;
+  border-radius: 10px;
+}
+
+/* 화면이 좁아지면 세로 배치 */
+@media (max-width: 768px) {
+  .compare-maps {
+    flex-direction: column;
+  }
+}
+
+/* ==========================================
+   스토리맵 도입부 - 담백한 설명형 디자인
+========================================== */
+
+.intro-section {
+  max-width: none;
+  margin-bottom: 80px;
+}
+
+.intro-section h1 {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin: 0 0 36px;
+  line-height: 1.4;
+}
+
+.intro-description {
+  font-size: 16px;
+  color: #555;
+  line-height: 2;
+  margin: 0 0 26px;
+}
+
+/* 핵심 통계와 질문 */
+.intro-highlight {
+  margin: 34px 0;
+  padding: 8px 0 8px 24px;
+  border-left: 3px solid #36A99B;
+}
+
+.intro-highlight p {
+  margin: 0;
+  font-size: 16px;
+  color: #444;
+  line-height: 1.9;
+}
+
+.intro-highlight strong {
+  color: #222;
+  font-weight: 700;
+}
+
+.intro-highlight .intro-question {
+  margin-top: 15px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* 작성자 */
+.intro-author {
+  margin-top: 40px;
+  padding-top: 14px;
+  /* border-top: 1px solid #eeeeee; */
+  font-size: 17px;
+  color: #222;
+  text-align: right;
+}
+
+/* 모바일 */
+@media (max-width: 650px) {
+  .intro-section h1 {
+    font-size: 29px;
+  }
+
+  .intro-description,
+  .intro-highlight p {
+    font-size: 15px;
+  }
+
+  .intro-highlight {
+    padding-left: 16px;
+  }
+}
+
+/* 첫 번째 지도: 지역별 위치 마커 */
+
+.region-pin-icon {
+  background: transparent;
+  border: none;
+}
+
+.region-pin {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  background: var(--pin-color);
+  border: 3px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.25);
+}
+
+.region-pin-center {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-radius: 50%;
+  top: 9px;
+  left: 9px;
+}
+
+/* ==================================================
+   스크롤형 비교 스토리
+================================================== */
+
+.story-section {
+  margin-top: 100px;
+}
+
+.story-title {
+  margin-bottom: 50px;
+}
+
+.story-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+
+/* 왼쪽 설명 */
+
+.story-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 220px;
+  padding-bottom: 300px;
+  padding-top: 58px;
+}
+
+.story-step {
+  min-height: 180px;
+  padding: 28px 24px;
+  border-radius: 12px;
+  background: #f7f7f7;
+  opacity: 0.45;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.story-step.active {
+  opacity: 1;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.step-number {
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+}
+
+.story-step h3 {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: 21px;
+}
+
+.story-step p {
+  margin: 0;
+}
+
+.story-step:hover {
+  opacity: 0.75;
+}
+
+/* 오른쪽 지도 */
+
+.story-map-panel {
+  position: sticky;
+  top: 40px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.story-region h3 {
+  text-align: center;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+#story-daechi-map,
+#story-mulgeum-map {
+  width: 100%;
+  height: 430px;
+  border-radius: 12px;
+}
+
+
+/* 모바일 */
+
+@media (max-width: 900px) {
+
+  .story-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .story-map-panel {
+    position: relative;
+    top: auto;
+  }
+
+  .story-steps {
+    gap: 40px;
+    padding-bottom: 0;
+  }
+
+}
+
+@media (max-width: 650px) {
+  .story-map-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 스토리 지도 공통 범례 */
+.story-legend {
+  grid-column: 1 / -1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: nowrap;
+  white-space: nowrap;
+
+  gap: 14px;
+  padding: 12px 16px;
+
+  font-size: 13px;
+  color: #555;
+}
+
+.legend-title {
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.story-point {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.story-point strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #777;
+  letter-spacing: 0.08em;
+}
+
+.story-point p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #555;
+}
+
+/* ==========================================
+   02번 학령인구 시계열 그래프
+========================================== */
+
+/* 기존 02번 카드의 확장 화면 */
+.story-trend-step {
+  border-left: 3px solid #36A99B;
+}
+
+/* 그래프 패널 */
+.school-age-trend-panel {
+  background: #ffffff;
+  border: 1px solid #e5e9e8;
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.school-age-trend-panel[hidden] {
+  display: none !important;
+}
+
+/* 제목 */
+.trend-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #36A99B;
+}
+
+.trend-heading h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: #263238;
+}
+
+.trend-heading p {
+  margin: 0;
+  font-size: 13px;
+  color: #777;
+}
+
+/* 범례 */
+.trend-legend {
+  display: flex;
+  gap: 20px;
+  margin: 22px 0 12px;
+  font-size: 13px;
+}
+
+.trend-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.trend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.trend-dot.mulgeum {
+  background: #36A99B;
+}
+
+.trend-dot.daechi {
+  background: #E67E93;
+}
+
+/* SVG 그래프 */
+#school-age-trend-chart {
+  width: 100%;
+  min-width: 0;
+}
+
+#school-age-trend-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 자료 출처 */
+.trend-source {
+  margin: 12px 0 0;
+  font-size: 11px;
+  color: #888;
+  line-height: 1.6;
+}
+
+/* 시계열 화면에서 기존 지도·범례 숨김 */
+.story-map-panel.trend-active > .story-region,
+.story-map-panel.trend-active > #story-legend {
+  display: none !important;
+}
+
+/* 그래프가 패널 너비 전체 사용 */
+.story-map-panel.trend-active {
+  display: block;
+}
+
+/* 모바일 */
+@media (max-width: 900px) {
+  .school-age-trend-panel {
+    padding: 20px 12px;
+  }
+
+  .trend-heading h3 {
+    font-size: 17px;
+  }
+}
+
+/* 학교명 지도 라벨 */
+.school-label {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #333333;
+  box-shadow: none;
+}
+
+.school-label::before {
+  display: none;
+}
+
+/* ==========================================
+   학원·교습소 지역 선택 버튼
+========================================== */
+
+.academy-map-control {
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.academy-map-control button {
+  border: 1px solid #e4e4e4;
+  background: #ffffff;
+  color: #555555;
+  padding: 6px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* .academy-map-control button.selected {
+  background: #C64A99;
+  border-color: #C64A99;
+  color: #ffffff;
+} */
+ /* 대치4동·물금읍 버튼: 진한 분홍 */
+.academy-map-control button[data-mode="local"].selected {
+  background: #C64A99;
+  border-color: #C64A99;
+  color: #ffffff;
+}
+
+/* 강남구·양산시 전체 버튼: 연한 분홍 */
+.academy-map-control button[data-mode="all"].selected {
+  background: #DE93BF;
+  border-color: #DE93BF;
+  color: #6B2854;
+}
+
+/* 확대 시 표시되는 학원명 */
+.academy-label {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #e2d5df;
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #6B2854;
+  box-shadow: none;
+}
+
+.academy-label::before {
+  display: none;
+}
+
+/* ==========================================
+   학교 도보권 ON/OFF 버튼
+========================================== */
+
+.walking-map-control {
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.walking-map-control button {
+  border: 1px solid #e4e4e4;
+  background: #ffffff;
+  color: #555555;
+  padding: 6px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* 도보 5분 버튼: 진한 보라 */
+.walking-map-control button[data-minutes="5"].selected {
+  background: #9C79D0;
+  border-color: #9C79D0;
+  color: #ffffff;
+}
+
+/* 도보 10분 버튼: 연한 보라 */
+.walking-map-control button[data-minutes="10"].selected {
+  background: #D9C9F2;
+  border-color: #D9C9F2;
+  color: #49365F;
+}
+
+/* ==========================================
+   결론 가로 막대그래프
+========================================== */
+
+.conclusion-chart {
+  margin: 35px 0 45px;
+  padding: 28px 32px;
+  background: #fafbfc;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+}
+
+.conclusion-chart h3 {
+  margin: 0 0 28px;
+  font-size: 17px;
+}
+
+.comparison-item {
+  margin-bottom: 22px;
+}
+
+.comparison-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+  font-size: 14px;
+}
+
+.comparison-label strong {
+  font-size: 15px;
+}
+
+.comparison-track {
+  width: 100%;
+  height: 15px;
+  background: #e9edf1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.comparison-bar {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.comparison-bar.mulgeum-bar {
+  width: 100%;
+  background: #36A99B;
+}
+
+.comparison-bar.daechi-bar {
+  width: 87.47%;
+  background: #E67E93;
+}
+
+.comparison-caption {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: #777;
+  text-align: right;
+}
+
+/* 모바일 */
+
+@media (max-width: 650px) {
+  .intro-section h1 {
+    font-size: 30px;
+  }
+
+  .intro-stats {
+    gap: 10px;
+  }
+
+  .intro-stat {
+    padding: 18px 14px;
+  }
+
+  .intro-stat strong {
+    font-size: 30px;
+  }
+
+  .intro-stat span {
+    font-size: 12px;
+  }
+
+  .conclusion-chart {
+    padding: 22px 18px;
+  }
+}
+
+/* ==========================================
+   최종 결론 섹션
+========================================== */
+
+.conclusion-section {
+  margin-top: 140px;
+  margin-bottom: 100px;
+  padding-top: 55px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.conclusion-label {
+  display: inline-block;
+  color: #C64A99;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.conclusion-section h2 {
+  margin-top: 14px;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+.conclusion-intro {
+  max-width: none;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.conclusion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 38px;
+}
+
+.conclusion-card {
+  background: #f8f9fa;
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid #eeeeee;
+}
+
+.conclusion-number {
+  font-size: 13px;
+  font-weight: 700;
+  color: #C64A99;
+}
+
+.conclusion-card h3 {
+  font-size: 19px;
+  margin: 12px 0;
+}
+
+.conclusion-card p {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.85;
+  margin: 0;
+}
+
+.conclusion-message {
+  margin-top: 36px;
+  padding: 36px;
+  background: #fcf7fa;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.conclusion-message h3 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.conclusion-message p {
+  max-width: 1050px;
+  margin: 0 auto 22px;
+  color: #555;
+  line-height: 1.9;
+}
+
+.conclusion-message strong {
+  display: block;
+  color: #A43D7C;
+  font-size: 17px;
+}
+
+.conclusion-note {
+  margin-top: 22px;
+  font-size: 12px;
+  color: #888;
+  line-height: 1.7;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .conclusion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .conclusion-section h2 {
+    font-size: 25px;
+  }
+
+  .conclusion-message {
+    padding: 26px 20px;
+  }
+}
+
+
+/* ==========================================
+   Editorial Storymap Design v1
+   기존 CSS 맨 아래에 추가
+========================================== */
+
+:root {
+  --page-bg: #F7F7F4;
+  --surface: #FFFFFF;
+  --text: #202925;
+  --muted: #65716B;
+  --line: #E1E6E1;
+  --teal: #238B7D;
+  --coral: #D87387;
+}
+
+/* 전체 페이지 */
+body {
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: "Pretendard", "Noto Sans KR",
+               Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.content {
+  max-width: 1320px;
+  padding: 72px 44px 100px;
+}
+
+/* 제목 체계 */
+h1, h2, h3 {
+  letter-spacing: -0.045em;
+  word-break: keep-all;
+}
+
+h2 {
+  font-size: clamp(27px, 3vw, 38px);
+  line-height: 1.35;
+  font-weight: 700;
+  margin-top: 100px;
+  margin-bottom: 20px;
+}
+
+/* 도입부 */
+.intro-section {
+  max-width: none;
+  padding: 55px 0 72px;
+  margin-bottom: 45px;
+  border-bottom: 1px solid var(--line);
+}
+
+.intro-section h1 {
+  max-width: 900px;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.22;
+  letter-spacing: -0.055em;
+  font-weight: 750;
+  margin-bottom: 48px;
+}
+
+.intro-description {
+  max-width: none;
+  font-size: 17px;
+  line-height: 2;
+  color: var(--muted);
+  word-break: keep-all;
+}
+
+.intro-highlight {
+  max-width: 790px;
+  margin: 42px 0;
+  padding: 20px 0 20px 28px;
+  border-left: 4px solid var(--teal);
+}
+
+.intro-highlight p {
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+.intro-highlight strong {
+  color: var(--teal);
+}
+
+.intro-highlight .intro-question {
+  font-size: 21px;
+  line-height: 1.6;
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+.intro-author {
+  margin-top: 36px;
+  padding: 0;
+  border: none;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* 지도 공통 디자인 */
+#map,
+#gangnam-map,
+#yangsan-map,
+#story-daechi-map,
+#story-mulgeum-map {
+  border-radius: 14px;
+  border: 1px solid #E2E7E4;
+  box-shadow: 0 8px 30px rgba(25, 40, 34, 0.045);
+}
+
+/* 전국 지도 */
+#map {
+  margin-top: 32px;
+}
+
+/* 행정경계 지도 */
+.compare-maps {
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.map-box {
+  min-width: 0;
+  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.map-box h3 {
+  margin: 4px 0 16px;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+/* 스토리 분석 섹션 */
+.story-section {
+  margin-top: 140px;
+  padding-top: 60px;
+  border-top: 1px solid var(--line);
+}
+
+.story-title {
+  margin-bottom: 64px;
+}
+
+#map + h2 + p,
+.story-title p {
+  max-width: none;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+
+.story-layout {
+  grid-template-columns: minmax(280px, 340px)
+                         minmax(0, 1fr);
+  gap: 36px;
+}
+
+/* 스크롤 카드 */
+.story-step {
+  opacity: 1;
+  background: #F0F2EF;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 30px 26px;
+  box-shadow: none;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.story-step.active {
+  opacity: 1;
+  background: #FFFFFF;
+  border-color: #C9DCD5;
+  box-shadow: 0 12px 35px rgba(27, 61, 47, 0.08);
+  transform: translateY(-2px);
+}
+
+.story-step:hover {
+  opacity: 1;
+  background: #FFFFFF;
+}
+
+.step-number {
+  color: var(--teal);
+  letter-spacing: 0.12em;
+  font-size: 12px;
+}
+
+.story-step h3 {
+  font-size: 22px;
+  line-height: 1.45;
+  margin: 12px 0 18px;
+}
+
+.story-step > p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.story-point {
+  border-top: 1px solid var(--line);
+}
+
+.story-point strong {
+  color: var(--teal);
+}
+
+/* 지도 패널 */
+.story-map-panel {
+  top: 28px;
+  gap: 18px;
+}
+
+.story-region {
+  min-width: 0;
+  padding: 14px;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.story-region h3 {
+  margin: 3px 0 13px;
+  font-size: 16px;
+}
+
+.story-legend {
+  flex-wrap: wrap;
+  white-space: normal;
+  gap: 12px 16px;
+  color: var(--muted);
+}
+
+/* 결론 - 기존 그래프와 카드 구조 유지 */
+.conclusion-section {
+  margin-top: 160px;
+  padding-top: 65px;
+  border-top: 1px solid var(--line);
+}
+
+.conclusion-label,
+.conclusion-number {
+  color: var(--teal);
+}
+
+.conclusion-chart {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 34px;
+}
+
+.conclusion-card {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.conclusion-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(25, 40, 34, 0.06);
+}
+
+.conclusion-message {
+  background: #EDF4F0;
+  border: 1px solid #DCE9E1;
+  border-radius: 18px;
+}
+
+.conclusion-message strong {
+  color: var(--teal);
+}
+
+/* 모바일 */
+@media (max-width: 900px) {
+  .content {
+    padding: 36px 22px 70px;
+  }
+
+  .story-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .story-map-panel {
+    position: relative;
+    top: auto;
+  }
+
+  .story-steps {
+    gap: 24px;
+    padding-bottom: 0;
+  }
+
+  .intro-section {
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  .intro-section h1 {
+    font-size: 36px;
+  }
+
+  .intro-highlight .intro-question {
+    font-size: 18px;
+  }
+
+  .map-box {
+    padding: 12px;
+  }
+
+  .story-map-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .conclusion-chart {
+    padding: 24px 18px;
+  }
+
+  .conclusion-card {
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-step,
+  .conclusion-card {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* 도입부 상단 영문 라벨 */
+.intro-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #238B7D;
+  margin-bottom: 22px;
+}
+
+/* 제목 강조 색상 */
+.intro-title-accent {
+  color: #238B7D;
+}
+
+/* 제목 아래 부제 */
+.intro-subtitle {
+  margin: -24px 0 46px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #65716B;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 650px) {
+  .intro-eyebrow {
+    font-size: 10px;
+  }
+
+  .intro-subtitle {
+    margin-top: -14px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
+
+/* ==========================================
+   모바일 스토리맵: 카드 아래 지도 배치
+   PC 디자인은 유지
+========================================== */
+
+@media (max-width: 900px) {
+
+  .story-layout {
+    display: block;
+  }
+
+  .story-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .story-step {
+    min-height: 0;
+    padding: 26px 22px;
+    cursor: default;
+  }
+
+  /* 지도 패널이 활성 카드 아래로 이동할 때 */
+  .story-map-panel {
+    position: relative;
+    top: auto;
+    width: 100%;
+    margin-top: 16px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .story-region {
+    min-width: 0;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .story-region h3 {
+    font-size: 14px;
+    margin: 3px 0 10px;
+  }
+
+  #story-daechi-map,
+  #story-mulgeum-map {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+  }
+
+  .story-legend {
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 12px;
+    padding: 12px 6px;
+    font-size: 11px;
+    white-space: normal;
+  }
+
+  .legend-color {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 650px) {
+
+  .story-map-panel {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  #story-daechi-map,
+  #story-mulgeum-map {
+    height: 300px;
+  }
+
+  .story-step {
+    padding: 24px 20px;
+  }
+
+  .story-step h3 {
+    font-size: 20px;
+  }
+}
+
+/* ==========================================
+   06. 지역별 업종 구성비 파이차트
+========================================== */
+
+.industry-pies {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.industry-pie-card {
+  min-width: 0;
+  padding: 18px 12px;
+  background: #f8faf9;
+  border: 1px solid #e5ebe8;
+  border-radius: 14px;
+}
+
+.industry-pie-card h5 {
+  margin: 0 0 16px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.industry-pie {
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+}
+
+.industry-pie-legend {
+  display: grid;
+  gap: 9px;
+}
+
+.industry-pie-legend-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+}
+
+.industry-pie-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.industry-pie-legend-row strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.industry-pie-note {
+  color: #66746f;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* 좁은 화면에서는 파이차트를 세로로 배치 */
+@media (max-width: 650px) {
+  .industry-pies {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================================================
+   06. 교육서비스업 세부 업종 비교
+   ================================================== */
+.story-map-panel.industry-active { grid-template-columns: minmax(0, 1fr); }
+.story-map-panel.industry-active > .story-region,
+.story-map-panel.industry-active > .story-legend { display: none; }
+.industry-panel[hidden] { display: none !important; }
+.industry-panel {
+  grid-column: 1 / -1;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--line, #e2e8e5);
+  border-radius: 18px;
+  padding: 22px;
+  max-height: min(82vh, 850px);
+  overflow-y: auto;
+}
+.industry-heading h3 { margin: 8px 0; font-size: 21px; }
+.industry-heading p, .industry-footnote { color: #66746f; font-size: 12px; line-height: 1.6; }
+/* 06·07 교육서비스업 패널 상단 라벨 통일 */
+.industry-eyebrow,
+.employees-eyebrow {
+  display: inline-block;
+  color: #238b7d;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.industry-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
+.industry-total { display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 12px; background: #f3f7f5; }
+.industry-total span { font-size: 12px; color: #66746f; }
+.industry-total strong { font-size: 23px; }
+.industry-controls { display: flex; gap: 8px; margin: 14px 0; }
+.industry-button { border: 1px solid #d7e2de; background: #fff; color: #40544d; border-radius: 9px; padding: 8px 12px; cursor: pointer; font-size: 12px; }
+.industry-button.is-selected { background: #238b7d; color: white; border-color: #238b7d; }
+.industry-key { display: flex; gap: 16px; margin-bottom: 15px; font-size: 12px; }
+.industry-key span { display: inline-flex; align-items: center; gap: 6px; }
+.industry-swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; }
+.industry-swatch-mulgeum { background: #36a99b; }
+.industry-swatch-daechi { background: #e67e93; }
+.industry-chart { display: grid; gap: 14px; }
+.industry-row { border-bottom: 1px solid #edf0ef; padding-bottom: 12px; min-width: 0; }
+.industry-name { font-weight: 650; font-size: 13px; margin-bottom: 8px; overflow-wrap: anywhere; }
+.industry-bar-line { display: grid; grid-template-columns: 38px minmax(0, 1fr) 48px; gap: 8px; align-items: center; margin: 5px 0; }
+.industry-region-name { font-size: 11px; color: #66746f; }
+.industry-track { height: 11px; background: #f1f4f2; border-radius: 4px; overflow: hidden; }
+.industry-bar { height: 100%; border-radius: 4px; }
+.industry-bar-mulgeum { background: #36a99b; }
+.industry-bar-daechi { background: #e67e93; }
+.industry-count { text-align: right; font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.industry-error { color: #a43c43; font-size: 13px; }
+@media (max-width: 650px) {
+  .industry-panel { max-height: none; overflow: visible; padding: 15px; }
+  .industry-heading h3 { font-size: 18px; }
+  .industry-bar-line { grid-template-columns: 38px minmax(0, 1fr) 42px; gap: 5px; }
+}
+
+/* 06. 주요 업종 그래프 및 전체 업종 펼쳐보기 */
+.industry-subheading { margin: 20px 0 14px; font-size: 15px; font-weight: 700; }
+.industry-details { margin-top: 22px; border: 1px solid #dce6e1; border-radius: 12px; overflow: hidden; }
+.industry-details summary { cursor: pointer; padding: 15px 16px; background: #f4f8f6; font-size: 14px; font-weight: 700; }
+.industry-details summary:hover { background: #eaf3ee; }
+.industry-expand-hint { margin-left: 10px; font-size: 11px; font-weight: 400; color: #66746f; }
+.industry-table-wrap { max-height: 420px; overflow: auto; }
+.industry-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.industry-table th, .industry-table td { padding: 10px 12px; border-bottom: 1px solid #edf0ef; }
+.industry-table thead th { position: sticky; top: 0; background: #f9fbfa; text-align: left; }
+.industry-table td { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.industry-table tbody th { text-align: left; font-weight: 500; }
+@media (max-width: 650px) { .industry-expand-hint { display: block; margin: 3px 0 0; } }
+
+.industry-swatch-mulgeum,
+.industry-bar-mulgeum {
+  background: #A0DCD2;
+}
+
+.industry-swatch-daechi,
+.industry-bar-daechi {
+  background: #F5C0CC;
+}
+/* ==================================================
+   07. 교육서비스업 종사자 수 비교
+   ================================================== */
+.story-map-panel.employees-active { grid-template-columns: minmax(0, 1fr); }
+.story-map-panel.employees-active > .story-region,
+.story-map-panel.employees-active > .story-legend { display: none; }
+.employees-panel[hidden] { display: none !important; }
+.employees-panel { grid-column: 1 / -1; min-width: 0; background: #fff; border: 1px solid #e3e8eb; border-radius: 18px; padding: 22px; max-height: min(82vh, 850px); overflow-y: auto; }
+.employees-panel h3 { font-size: 21px; margin: 9px 0; }
+.employees-lead,.employees-footnote { color: #66746f; font-size: 12px; line-height: 1.65; }
+.employees-metrics { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin: 20px 0; }
+.employees-metric { background: #f5f7f8; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+.employees-metric span { font-size: 12px; color: #5e6c77; }
+.employees-metric strong { font-size: clamp(23px, 3vw, 30px); font-variant-numeric: tabular-nums; }
+.employees-metric small { font-size: 13px; margin-left: 3px; }
+.employees-chart-group { padding: 15px 0; border-bottom: 1px solid #edf0f2; }
+.employees-chart-group h4 { font-size: 14px; margin: 0 0 13px; }
+.employees-bar-row { display: grid; grid-template-columns: 54px minmax(0,1fr) 86px; align-items: center; gap: 10px; margin: 10px 0; font-size: 12px; }
+.employees-bar-row strong { text-align: right; font-size: 12px; font-variant-numeric: tabular-nums; }
+.employees-bar-track { height: 14px; border-radius: 5px; background: #f1f3f5; overflow: hidden; }
+.employees-bar { height: 100%; border-radius: 5px; }
+.employees-bar-mulgeum { background: #a0dcd2; }
+.employees-bar-daechi { background: #f5c0cc; }
+.employees-insight { background: #f5f7fa; padding: 15px; border-radius: 12px; margin-top: 18px; font-size: 13px; line-height: 1.7; }
+.employees-insight p { margin: 6px 0 0; }
+@media (max-width: 650px) { .employees-panel { max-height: none; overflow: visible; padding: 16px; } .employees-bar-row { grid-template-columns: 48px minmax(0,1fr) 76px; gap: 6px; } .employees-bar-row strong { font-size: 11px; } }
+
+/* 07번 데이터 조회 오류 안내 */
+.employees-error { color: #a43c43; font-size: 13px; }
+
+/* Conclusion: compact metrics comparison */
+.conclusion-metrics {margin-top:24px;padding:24px 26px;border:1px solid #e8e8e8;border-radius:12px;background:#fff;}
+.conclusion-metrics h3 {margin:0 0 16px;font-size:19px;}
+.conclusion-table-wrap {width:100%;overflow-x:auto;}
+.conclusion-table {width:100%;border-collapse:collapse;font-size:14px;}
+.conclusion-table th,.conclusion-table td {padding:12px 10px;border-bottom:1px solid #e8e8e8;text-align:right;font-variant-numeric:tabular-nums;}
+.conclusion-table th:first-child {text-align:left;}
+.conclusion-table thead th {color:#576760;background:#f7faf8;font-weight:700;}
+.conclusion-metrics>p {margin:16px 0 0;color:#555;line-height:1.85;font-size:14px;}
+.conclusion-message .conclusion-inline-strong {display:inline;color:inherit;font-size:inherit;}
+@media(max-width:650px){.conclusion-metrics{padding:18px 14px;}.conclusion-table{font-size:12px;}.conclusion-table th,.conclusion-table td{padding:10px 5px;}}
