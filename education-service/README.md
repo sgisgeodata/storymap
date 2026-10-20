@@ -6,8 +6,7 @@
 
 **[🌐 스토리맵 바로가기 - 교육서비스업 공간분석 스토리맵: 우리가 아는 교육의 중심지, 통계도 같을까?](https://sgisgeodata.github.io/storymap/education-service/)**
 
-**Original Author & Developer:** [김현진 (@tellgeniewish)](https://github.com/tellgeniewish)  
-**Project Repository:** [국가데이터처 공간정보서비스과 GitHub](https://github.com/sgisgeodata/storymap/tree/main/education-service)
+📂 **원본 프로젝트:** [tellgeniewish/Education-Service-Storymap](https://github.com/tellgeniewish/Education-Service-Storymap)
 
 ## 📌 프로젝트 개요
 
@@ -34,21 +33,6 @@
 | 웹 배포 | GitHub Pages | 별도 설치 없이 웹사이트 공개 |
 
 공간자료는 GeoJSON 형식으로 관리하며, GitHub Pages로 배포합니다.
-
-## 👥 담당자
-
-본 프로젝트는 김현진([@tellgeniewish](https://github.com/tellgeniewish))이 최초 기획·개발한 교육서비스업 공간분석 스토리맵으로, 개인 GitHub 저장소에서 시작하여 국가데이터처 공간정보서비스과 GitHub 저장소로 이전하였습니다.
-
-| 지니(김현진) |
-|:----------------:|
-| <img src="https://github.com/tellgeniewish.png" width="100"/><br/> |
-| [@tellgeniewish](https://github.com/tellgeniewish) |
-| 프로젝트 기획·공간분석·웹 시각화 |
-
-- 📂 **원본 프로젝트:** [Education-Service-Storymap](https://github.com/tellgeniewish/Education-Service-Storymap)
-- 🏛️ **현재 프로젝트:** [sgisgeodata/storymap/education-service](https://github.com/sgisgeodata/storymap/tree/main/education-service)
-
-본 프로젝트의 초기 개발 이력은 원본 저장소의 Git 커밋 기록을 보존하여 관리합니다.
 
 ## 🗃️ 활용 데이터
 
@@ -203,24 +187,14 @@ python -m http.server 8000
 
 주요 업데이트 내용은 GitHub 저장소의 [커밋 기록](https://github.com/tellgeniewish/Education-Service-Storymap/commits/)에서 확인할 수 있습니다.
 
-본 프로젝트는 [김현진(@tellgeniewish)의 개인 저장소](https://github.com/tellgeniewish/Education-Service-Storymap)에서 최초 개발되었으며, 이후 국가데이터처 공간정보서비스과 GitHub 저장소로 이전되었습니다.
+본 프로젝트는 👥[김현진(@tellgeniewish)의 개인 저장소](https://github.com/tellgeniewish/Education-Service-Storymap)에서 최초 개발되었으며, 이후 국가데이터처 공간정보서비스과 GitHub 저장소로 이전되었습니다.
 
-- **최초 개발 및 이전 전 기록:** [원본 저장소 커밋 기록](https://github.com/tellgeniewish/Education-Service-Storymap/commits/main/)
-- **이전 후 관리 및 수정 기록:** [공간정보서비스과 저장소 커밋 기록](https://github.com/sgisgeodata/storymap/commits/main/)
+프로젝트의 초기 기획부터 기능 구현, 개선 및 수정에 이르는 단계별 개발 과정은 원본 저장소의 커밋 기록에서 확인할 수 있습니다.
+
+🌱 **최초 개발 및 이전 전 기록:** [원본 저장소 커밋 기록](https://github.com/tellgeniewish/Education-Service-Storymap/commits/main/)
+
+🏛️ **이전 후 관리 및 수정 기록:** [공간정보서비스과 저장소 커밋 기록](https://github.com/sgisgeodata/storymap/commits/main/)
+
+본 프로젝트의 초기 개발 이력은 원본 저장소의 Git 커밋 기록을 보존하여 관리합니다.
 
 프로젝트 이전 과정에서 기존 Git 커밋 이력을 보존하여 개발 연속성을 유지합니다.
-
-## 📝 Git 커밋 컨벤션
-
-| 접두어 | 용도 |
-| --- | --- |
-| `[Feat]` | 새로운 기능 추가 |
-| `[Fix]` | 오류 수정 |
-| `[Style]` | 디자인·스타일 변경 |
-| `[Refactor]` | 기능 변경 없는 코드 구조 개선 |
-| `[Docs]` | README 등 문서 수정 |
-
-
----
-
-> 익숙한 인식에서 시작된 질문, **SGIS 공간정보로 넓어지는 지역에 대한 이해.**
