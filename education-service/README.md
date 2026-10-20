@@ -4,7 +4,11 @@
 
 교육의 중심지로 익숙한 서울 강남구 대치4동과 경남 양산시 물금읍을 SGIS 통계 및 공간정보로 비교하는 인터랙티브 스토리맵입니다. 교육서비스업 사업체 수에서 출발해 총인구·학령인구의 공간분포와 학령인구 변화 추이, 학교·학원·교습소 위치, 학교 도보 접근성, 교육서비스업 세부 업종 및 종사자 수를 차례로 살펴봅니다.
 
-**[🌐 스토리맵 바로가기 - 교육서비스업 공간분석 스토리맵: 우리가 아는 교육의 중심지, 통계도 같을까?](https://tellgeniewish.github.io/Education-Service-Storymap/)**
+**[🌐 스토리맵 바로가기 - 교육서비스업 공간분석 스토리맵: 우리가 아는 교육의 중심지, 통계도 같을까?](https://sgisgeodata.github.io/storymap/education-service/)**
+
+**Original Author & Developer:** [김현진 (@tellgeniewish)](https://github.com/tellgeniewish)  
+**Project Repository:** [국가데이터처 공간정보서비스과 GitHub](https://github.com/sgisgeodata/storymap/tree/main/education-service)
+
 ## 📌 프로젝트 개요
 
 | 항목 | 내용 |
@@ -33,11 +37,18 @@
 
 ## 👥 담당자
 
+본 프로젝트는 김현진(@tellgeniewish)이 최초 기획·개발한 교육서비스업 공간분석 스토리맵으로, 개인 GitHub 저장소에서 시작하여 국가데이터처 공간정보서비스과 GitHub 저장소로 이전하였습니다.
+
 | 지니(김현진) |
 |:----------------:|
 | <img src="https://github.com/tellgeniewish.png" width="100"/><br/> |
 | [@tellgeniewish](https://github.com/tellgeniewish) |
 | 프로젝트 기획·공간분석·웹 시각화 |
+
+- 📂 **원본 프로젝트:** [Education-Service-Storymap](https://github.com/tellgeniewish/Education-Service-Storymap)
+- 🏛️ **현재 프로젝트:** [sgisgeodata/storymap/education-service](https://github.com/sgisgeodata/storymap/tree/main/education-service)
+
+본 프로젝트의 초기 개발 이력은 원본 저장소의 Git 커밋 기록을 보존하여 관리합니다.
 
 ## 🗃️ 활용 데이터
 
@@ -191,6 +202,13 @@ python -m http.server 8000
 ## 🔄 수정 이력
 
 주요 업데이트 내용은 GitHub 저장소의 [커밋 기록](https://github.com/tellgeniewish/Education-Service-Storymap/commits/)에서 확인할 수 있습니다.
+
+본 프로젝트는 [김현진(@tellgeniewish)의 개인 저장소](https://github.com/tellgeniewish/Education-Service-Storymap)에서 최초 개발되었으며, 이후 국가데이터처 공간정보서비스과 GitHub 저장소로 이전되었습니다.
+
+- **최초 개발 및 이전 전 기록:** [원본 저장소 커밋 기록](https://github.com/tellgeniewish/Education-Service-Storymap/commits/main/)
+- **이전 후 관리 및 수정 기록:** [공간정보서비스과 저장소 커밋 기록](https://github.com/sgisgeodata/storymap/commits/main/)
+
+프로젝트 이전 과정에서 기존 Git 커밋 이력을 보존하여 개발 연속성을 유지합니다.
 
 ## 📝 Git 커밋 컨벤션
 
