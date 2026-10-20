@@ -6,7 +6,7 @@
 
 **[🌐 스토리맵 바로가기 - 교육서비스업 공간분석 스토리맵: 우리가 아는 교육의 중심지, 통계도 같을까?](https://sgisgeodata.github.io/storymap/education-service/)**
 
-📂 **원본 프로젝트:** [tellgeniewish/Education-Service-Storymap](https://github.com/tellgeniewish/Education-Service-Storymap)
+🧑‍💻 **원본 프로젝트:** [tellgeniewish/Education-Service-Storymap](https://github.com/tellgeniewish/Education-Service-Storymap)
 
 ## 📌 프로젝트 개요
 
