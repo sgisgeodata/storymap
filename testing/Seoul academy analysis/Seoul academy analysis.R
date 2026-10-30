@@ -1,0 +1,222 @@
+# install.packages(c("leaflet", "sf", "htmlwidgets", "htmltools", "DT"))
+
+library(leaflet)
+library(sf)
+library(htmlwidgets)
+library(htmltools)
+library(DT)
+
+# 1. 데이터 불러오기 및 좌표계 변환
+read_shp_4326 <- function(path) {
+  st_read(path, quiet = TRUE) |> st_transform(4326)
+}
+
+seoul_boundary_4326 <- read_shp_4326("행정구역/bnd_dong_서울시_2025.shp")
+seoul_grid_boundary_4326 <- read_shp_4326("행정구역/grid_서울_1K.shp")
+academy_location_4326 <- read_shp_4326("학원교습소/학원교습소_서울시.shp")
+seoul_dong_academy_4326 <- read_shp_4326("학원교습소/2025년 행정구역(동)별 학원교습소_서울시.shp")
+seoul_grid_academy_4326 <- read_shp_4326("학원교습소/2025년 격자별 학원교습소_서울시.shp")
+
+# 2. 필수 변수 확인
+stopifnot(
+  all(c("NUMPOINTS", "ADM_NM") %in% names(seoul_dong_academy_4326)),
+  "NUMPOINTS" %in% names(seoul_grid_academy_4326), "학원명" %in% names(academy_location_4326)
+)
+
+# 3. 공통 색상 설정
+academy_palette <- c("transparent", "#ffffba", "#fedd79", "#feb751", "#fd8d3c", "#f45629", "#df2722", "#bd0026")
+academy_bins <- c(0, 10, 57, 103, 184, 400, 600, 903)
+
+# 집계 데이터별 색상 함수 생성
+make_academy_palette <- function(data) {
+  colorBin(palette = academy_palette, domain = data$NUMPOINTS, bins = academy_bins, na.color = "transparent")
+}
+
+bin_academy_dong <- make_academy_palette(seoul_dong_academy_4326)
+bin_academy_grid <- make_academy_palette(seoul_grid_academy_4326)
+
+# 4. 공통 집계 레이어 스타일
+academy_polygon_style <- list(
+  fill = TRUE,
+  color = "#888888",
+  weight = 0.3,
+  opacity = 0.6,
+  highlightOptions = highlightOptions(
+    weight = 2,
+    color = "#000000",
+    bringToFront = TRUE
+  )
+)
+
+# 집계 레이어 추가 함수
+add_academy_layer <- function(map, data, group, palette, label_text, popup_text) 
+{
+    map %>%
+    addPolygons(
+      data = data,
+      group = group,
+      fill = academy_polygon_style$fill,
+      fillColor = ~palette(NUMPOINTS),
+      fillOpacity = ~ifelse(
+        is.na(NUMPOINTS) | NUMPOINTS == 0, 0, 0.6
+      ),
+      color = academy_polygon_style$color,
+      weight = academy_polygon_style$weight,
+      opacity = academy_polygon_style$opacity,
+      label = label_text,
+      popup = popup_text,
+      highlightOptions = academy_polygon_style$highlightOptions
+    )
+}
+
+# 5. 지도 생성
+map <- leaflet() %>%
+  
+  # 배경지도
+  addTiles(group = "OpenStreetMap") %>%
+  addProviderTiles(providers$Esri.WorldImagery, group = "Esri 위성지도") %>%
+  
+  # 행정동 경계
+  addPolygons(
+    data = seoul_boundary_4326,
+    group = "서울시 행정동 경계",
+    fill = FALSE,
+    color = "blue",
+    weight = 1,
+    opacity = 0.6,
+    label = ~ADM_NM,
+    labelOptions = labelOptions(
+      direction = "center",
+      textOnly = TRUE,
+      style = list(
+        color = "gray",
+        "font-weight" = "bold",
+        "font-size" = "10px"
+      )
+    )
+  ) %>%
+  
+  # 격자 경계
+  addPolygons(
+    data = seoul_grid_boundary_4326,
+    group = "서울시 격자 경계",
+    fill = FALSE,
+    color = "#555555",
+    weight = 0.5,
+    opacity = 0.5
+  ) %>%
+  
+  # 학원교습소 위치
+  addCircleMarkers(
+    data = academy_location_4326,
+    group = "학원교습소 위치",
+    radius = 3,
+    color = "#FF0000",
+    fillColor = "#FF3333",
+    fillOpacity = 0.8,
+    weight = 1,
+    popup = ~학원명,
+    clusterOptions = markerClusterOptions(
+      disableClusteringAtZoom = 14
+    )
+  )
+
+# 6. 행정동별 집계 레이어
+map <- add_academy_layer(
+  map = map,
+  data = seoul_dong_academy_4326,
+  group = "행정동별 학원교습소 집계",
+  palette = bin_academy_dong,
+  label_text = ~paste0(
+    ADM_NM, ": ",
+    format(NUMPOINTS, big.mark = ",", trim = TRUE),
+    "개"
+  ),
+  popup_text = ~paste0(
+    "<b>행정동:</b> ", ADM_NM,
+    "<br><b>학원교습소:</b> ",
+    format(NUMPOINTS, big.mark = ",", trim = TRUE), "개"
+  )
+)
+
+# 7. 격자별 집계 레이어
+map <- add_academy_layer(
+  map = map,
+  data = seoul_grid_academy_4326,
+  group = "격자별 학원교습소 집계",
+  palette = bin_academy_grid,
+  label_text = ~paste0(
+    "학원교습소: ",
+    format(NUMPOINTS, big.mark = ",", trim = TRUE),
+    "개"
+  ),
+  popup_text = ~paste0(
+    "<b>학원교습소:</b> ",
+    format(NUMPOINTS, big.mark = ",", trim = TRUE), "개"
+  )
+)
+
+# 8. 레이어 컨트롤
+map <- map %>%
+  addLayersControl(
+    baseGroups = c("OpenStreetMap", "Esri 위성지도"),
+    overlayGroups = c(
+      "서울시 행정동 경계",
+      "서울시 격자 경계",
+      "학원교습소 위치",
+      "행정동별 학원교습소 집계",
+      "격자별 학원교습소 집계"
+    ),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  
+  # 기본 숨김 레이어
+  hideGroup(c(
+    "Esri 위성지도"
+  )) %>%
+  
+  # 행정동별 범례
+  addLegend(
+    pal = bin_academy_dong,
+    values = seoul_dong_academy_4326$NUMPOINTS,
+    group = "행정동별 학원교습소 집계",
+    title = "행정동별 학원교습소 (개)",
+    position = "bottomright",
+    opacity = 0.8
+  ) %>%
+  
+  # 격자별 범례
+  addLegend(
+    pal = bin_academy_grid,
+    values = seoul_grid_academy_4326$NUMPOINTS,
+    group = "격자별 학원교습소 집계",
+    title = "격자별 학원교습소 (개)",
+    position = "bottomright",
+    opacity = 0.8
+  )
+
+# 9. 서울시 경계에 맞춰 지도 범위 설정
+bb <- st_bbox(seoul_boundary_4326)
+
+map <- map %>%
+  fitBounds(
+    lng1 = unname(bb["xmin"]),
+    lat1 = unname(bb["ymin"]),
+    lng2 = unname(bb["xmax"]),
+    lat2 = unname(bb["ymax"])
+  )
+
+# 10. 지도 표시
+print(map)
+
+# 11. HTML 파일 저장
+output_file <- "Seoul_academy_map.html"
+
+htmlwidgets::saveWidget(
+  widget = map,
+  file = output_file,
+  selfcontained = TRUE
+)
+
+# 12. 저장 위치 확인
+normalizePath(output_file)
