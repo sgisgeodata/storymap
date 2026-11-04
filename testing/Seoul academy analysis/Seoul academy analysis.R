@@ -12,7 +12,6 @@ read_shp_4326 <- function(path) {
 }
 
 seoul_boundary_4326 <- read_shp_4326("행정구역/bnd_dong_서울시_2025.shp")
-seoul_grid_boundary_4326 <- read_shp_4326("행정구역/grid_서울_1K.shp")
 academy_location_4326 <- read_shp_4326("학원교습소/학원교습소_서울시.shp")
 seoul_dong_academy_4326 <- read_shp_4326("학원교습소/2025년 행정구역(동)별 학원교습소_서울시.shp")
 seoul_grid_academy_4326 <- read_shp_4326("학원교습소/2025년 격자별 학원교습소_서울시.shp")
@@ -94,33 +93,8 @@ map <- leaflet() %>%
         "font-size" = "10px"
       )
     )
-  ) %>%
+  ) 
   
-  # 격자 경계
-  addPolygons(
-    data = seoul_grid_boundary_4326,
-    group = "서울시 격자 경계",
-    fill = FALSE,
-    color = "#555555",
-    weight = 0.5,
-    opacity = 0.5
-  ) %>%
-  
-  # 학원교습소 위치
-  addCircleMarkers(
-    data = academy_location_4326,
-    group = "학원교습소 위치",
-    radius = 3,
-    color = "#FF0000",
-    fillColor = "#FF3333",
-    fillOpacity = 0.8,
-    weight = 1,
-    popup = ~학원명,
-    clusterOptions = markerClusterOptions(
-      disableClusteringAtZoom = 14
-    )
-  )
-
 # 6. 행정동별 집계 레이어
 map <- add_academy_layer(
   map = map,
@@ -156,14 +130,49 @@ map <- add_academy_layer(
   )
 )
 
-# 8. 레이어 컨트롤
+# 8. 학원교습소 위치 레이어
+map <- map %>%
+  addCircleMarkers(
+    data = academy_location_4326,
+    group = "학원교습소 위치",
+    radius = 3,
+    color = "#FF0000",
+    fillColor = "#FF3333",
+    fillOpacity = 0.8,
+    weight = 1,
+    
+    # 마우스 오버 시 학원명 표시
+    label = ~학원명,
+    
+    # 툴팁 스타일
+    labelOptions = labelOptions(
+      direction = "top",
+      textsize = "12px",
+      opacity = 0.9,
+      style = list(
+        "font-weight" = "bold",
+        "color" = "#333333"
+      )
+    ),
+    
+    # 마커 클러스터
+    clusterOptions = markerClusterOptions(
+      disableClusteringAtZoom = 14
+    ),
+    
+    # 마우스 오버 시 포인트 강조
+    options = pathOptions(
+      bubblingMouseEvents = FALSE
+    )
+  )
+
+# 9. 레이어 컨트롤
 map <- map %>%
   addLayersControl(
     baseGroups = c("OpenStreetMap", "Esri 위성지도"),
     overlayGroups = c(
-      "서울시 행정동 경계",
-      "서울시 격자 경계",
       "학원교습소 위치",
+      "서울시 행정동 경계",
       "행정동별 학원교습소 집계",
       "격자별 학원교습소 집계"
     ),
@@ -195,7 +204,7 @@ map <- map %>%
     opacity = 0.8
   )
 
-# 9. 서울시 경계에 맞춰 지도 범위 설정
+# 10. 서울시 경계에 맞춰 지도 범위 설정
 bb <- st_bbox(seoul_boundary_4326)
 
 map <- map %>%
@@ -206,10 +215,10 @@ map <- map %>%
     lat2 = unname(bb["ymax"])
   )
 
-# 10. 지도 표시
+# 11. 지도 표시
 print(map)
 
-# 11. HTML 파일 저장
+# 12. HTML 파일 저장
 output_file <- "Seoul_academy_map.html"
 
 htmlwidgets::saveWidget(
@@ -218,5 +227,5 @@ htmlwidgets::saveWidget(
   selfcontained = TRUE
 )
 
-# 12. 저장 위치 확인
+# 13. 저장 위치 확인
 normalizePath(output_file)
