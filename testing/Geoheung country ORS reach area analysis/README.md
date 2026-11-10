@@ -14,4 +14,4 @@
 
 ## 분석 지도
 
-[🗺️ 고흥군 의료서비스 접근성 분석지도 바로 보기]([(https://sgisgeodata.github.io/storymap/testing/Geoheung%country%ORS%reach%area%analysis/Geoheung county ORS reach area analysis.html))
+[🗺️ 고흥군 의료서비스 접근성 분석지도 바로 보기](https://sgisgeodata.github.io/storymap/testing/Geoheung%country%ORS%reach%area%analysis/Geoheung county ORS reach area analysis.html)
