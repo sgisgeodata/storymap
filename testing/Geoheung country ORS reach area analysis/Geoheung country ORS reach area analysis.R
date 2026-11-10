@@ -153,7 +153,7 @@ map <- map |>
   )
 
 # HTML 파일 저장
-htmlwidgets::saveWidget(map, file = "Geoheung country ORS reach area analysis.html", selfcontained = TRUE)
+htmlwidgets::saveWidget(map, file = "Geoheung_country_ORS_reach_area_analysis.html", selfcontained = TRUE)
 
 # Viewer에 지도 출력
 map
