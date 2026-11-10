@@ -2,8 +2,7 @@
 
 ## 프로젝트 소개
 
-전라남도 고흥군의 의료기관 위치와
-의료서비스 접근성을 분석한 GIS 프로젝트입니다.
+전라남도 고흥군의 의료기관 위치와 의료서비스 접근성을 분석한 프로젝트 입니다. 
 
 ## 분석 내용
 
@@ -14,4 +13,4 @@
 
 ## 분석 지도
 
-[🗺️ 고흥군 의료서비스 접근성 분석지도 바로 보기](https://sgisgeodata.github.io/storymap/testing/Geoheung%country%ORS%reach%area%analysis/Geoheung county ORS reach area analysis.html)
+[![지도 바로가기](https://img.shields.io/badge/Interactive_Map-지도_바로가기-blue?style=for-the-badge)](https://sgisgeodata.github.io/storymap/testing/Geoheung%country%ORS%reach%area%analysis/)
